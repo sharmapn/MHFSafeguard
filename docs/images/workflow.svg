@@ -1,0 +1,57 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="760" viewBox="0 0 1200 760">
+  <style>
+    .box{fill:#f3f8fc;stroke:#2f4a5f;stroke-width:2;rx:10;ry:10}.decision{fill:#fff;stroke:#2f4a5f;stroke-width:2}.txt{font-family:Arial,Helvetica,sans-serif;fill:#111827;font-size:16px}.small{font-size:14px}.title{font-size:28px;font-weight:700}.label{font-size:15px;font-weight:700}.arrow{stroke:#222;stroke-width:2;fill:none;marker-end:url(#arrow)}
+  </style>
+  <defs><marker id="arrow" markerWidth="10" markerHeight="10" refX="8" refY="3" orient="auto"><path d="M0,0 L8,3 L0,6 Z" fill="#222"/></marker></defs>
+  <text class="txt title" x="600" y="42" text-anchor="middle">Workflow of the MHFSafeguard XenForo Plugin</text>
+
+  <rect class="box" x="260" y="80" width="250" height="150"/>
+  <text class="txt label" x="385" y="110" text-anchor="middle">Admin configuration</text>
+  <text class="txt small" x="285" y="140">• Enable plugin</text>
+  <text class="txt small" x="285" y="165">• Set API URL / API key</text>
+  <text class="txt small" x="285" y="190">• Choose action mode</text>
+  <text class="txt small" x="285" y="215">• Set thresholds and excluded forums</text>
+
+  <rect class="box" x="35" y="330" width="180" height="90"/>
+  <text class="txt small" x="125" y="360" text-anchor="middle">1. User writes</text><text class="txt small" x="125" y="382" text-anchor="middle">post / reply / edit</text><text class="txt small" x="125" y="404" text-anchor="middle">in XenForo</text>
+  <rect class="box" x="35" y="470" width="180" height="75"/>
+  <text class="txt small" x="125" y="502" text-anchor="middle">2. User clicks</text><text class="txt small" x="125" y="524" text-anchor="middle">Submit</text>
+
+  <rect class="box" x="270" y="400" width="190" height="105"/>
+  <text class="txt small" x="365" y="435" text-anchor="middle">3. Plugin intercepts</text><text class="txt small" x="365" y="458" text-anchor="middle">the full message</text>
+  <path class="arrow" d="M215 375 C240 380 245 420 270 435"/><path class="arrow" d="M215 507 C240 500 245 465 270 458"/><path class="arrow" d="M385 230 L365 400"/>
+
+  <rect class="box" x="500" y="400" width="170" height="105"/>
+  <text class="txt small" x="585" y="425" text-anchor="middle">4. Text normalisation</text><text class="txt small" x="585" y="450" text-anchor="middle">remove quotes</text><text class="txt small" x="585" y="472" text-anchor="middle">remove BBCode</text><text class="txt small" x="585" y="494" text-anchor="middle">clean message</text>
+  <path class="arrow" d="M460 452 L500 452"/>
+
+  <rect class="box" x="710" y="400" width="170" height="105"/>
+  <text class="txt small" x="795" y="430" text-anchor="middle">5. Send one full</text><text class="txt small" x="795" y="453" text-anchor="middle">cleaned message</text><text class="txt small" x="795" y="476" text-anchor="middle">to local API</text>
+  <path class="arrow" d="M670 452 L710 452"/>
+
+  <rect class="box" x="920" y="390" width="210" height="125"/>
+  <text class="txt small" x="1025" y="418" text-anchor="middle">6. Server classifier</text><text class="txt small" x="1025" y="441" text-anchor="middle">analyses message</text><text class="txt small" x="1025" y="464" text-anchor="middle">and identifies risky</text><text class="txt small" x="1025" y="487" text-anchor="middle">spans / sentences</text>
+  <path class="arrow" d="M880 452 L920 452"/>
+
+  <rect class="box" x="500" y="585" width="190" height="105"/>
+  <text class="txt small" x="595" y="612" text-anchor="middle">7. API returns result</text><text class="txt small" x="595" y="637" text-anchor="middle">risk level, label, score</text><text class="txt small" x="595" y="662" text-anchor="middle">recommended action</text>
+  <path class="arrow" d="M1025 515 C1025 575 760 637 690 637"/>
+
+  <polygon class="decision" points="805,585 865,637 805,690 745,637"/>
+  <text class="txt small" x="805" y="632" text-anchor="middle">8. Plugin</text><text class="txt small" x="805" y="654" text-anchor="middle">decision</text>
+  <path class="arrow" d="M690 637 L745 637"/>
+
+  <rect class="box" x="960" y="555" width="160" height="70"/>
+  <text class="txt small" x="1040" y="586" text-anchor="middle">Post is</text><text class="txt small" x="1040" y="608" text-anchor="middle">published</text>
+  <text class="txt label" x="895" y="590">A. Allow</text><path class="arrow" d="M865 630 L960 590"/>
+
+  <rect class="box" x="960" y="645" width="160" height="70"/>
+  <text class="txt small" x="1040" y="676" text-anchor="middle">Post enters</text><text class="txt small" x="1040" y="698" text-anchor="middle">moderation queue</text>
+  <text class="txt label" x="885" y="682">B. Moderate</text><path class="arrow" d="M865 647 L960 680"/>
+
+  <rect class="box" x="735" y="710" width="190" height="40"/>
+  <text class="txt small" x="830" y="736" text-anchor="middle">Scan log stored for moderators</text>
+  <path class="arrow" d="M805 690 L805 710"/>
+
+  <text class="txt small" x="600" y="735" text-anchor="middle">The plugin sends the full message once per submission; sentence-level analysis is performed on the server.</text>
+</svg>
