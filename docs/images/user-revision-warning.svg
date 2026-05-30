@@ -1,1 +1,37 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="680" viewBox="0 0 1100 680"><style>.bg{fill:#f7fafc}.top{fill:#2c6f9f}.panel{fill:#fff;stroke:#d0d7de}.warn{fill:#fff7ed;stroke:#fb923c}.txt{font-family:Arial,Helvetica,sans-serif;fill:#1f2328}.title{font-size:24px;font-weight:700}.small{font-size:15px}.btn{fill:#2f6fed}.btn2{fill:#eef3f7;stroke:#b6c2cf}.btntext{fill:white;font-size:15px;font-weight:700}.muted{fill:#6b7280}</style><rect class="bg" width="1100" height="680"/><rect class="top" width="1100" height="70"/><text x="55" y="43" class="txt" fill="#fff" font-size="28" font-weight="700">Mental Health Forum</text><rect class="panel" x="95" y="105" width="910" height="500" rx="8"/><text x="130" y="150" class="txt title">Please revise your message</text><rect class="warn" x="130" y="185" width="840" height="120" rx="8"/><text x="160" y="225" class="txt" font-size="19" font-weight="700">The safety checker found content that may require editing.</text><text x="160" y="258" class="txt small">Your message has not been posted. Please revise the highlighted section or remove specific harmful details.</text><text x="160" y="285" class="txt small muted">The aim is to keep the community safe while still allowing support-seeking discussion.</text><rect class="panel" x="130" y="330" width="840" height="135" rx="4"/><text x="155" y="365" class="txt small">Flagged by classifier:</text><text x="155" y="400" class="txt small" font-weight="700">Label: method_or_action</text><text x="155" y="430" class="txt small">Risk score: 95</text><rect class="btn" x="130" y="505" width="150" height="42" rx="5"/><text x="205" y="532" text-anchor="middle" class="btntext">Edit message</text><rect class="btn2" x="300" y="505" width="110" height="42" rx="5"/><text x="355" y="532" text-anchor="middle" class="txt small">Cancel</text><text x="130" y="590" class="txt small muted">This screen appears only when Action mode is set to Revise and the score exceeds the revision threshold.</text></svg>
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="1000" viewBox="0 0 1400 1000">
+<style>
+.bg{fill:#f4f7fa}.head{fill:#fff}.nav{fill:#368bb8}.card{fill:#fff;stroke:#ccd6df}.warn{fill:#fff0f1;stroke:#ff4858}.toolbar{fill:#edf3f8;stroke:#c8d4df}.editor{fill:#fff;stroke:#c8d4df}.btn{fill:#f8fafc;stroke:#c9d3dd}.blue{fill:#2e79bd}.cancel{fill:#f4f7fa;stroke:#c8d4df}.summary{fill:#fff7dc;stroke:#e2b53d}.mark{fill:#fff4cf;stroke:#e0b845}.txt{font-family:Arial,Helvetica,sans-serif;fill:#27313d}.muted{fill:#6b7280}.title{font-size:32px;font-weight:700}.sub{font-size:15px}.navtxt{font-size:17px;fill:#fff}.h1{font-size:29px;font-weight:700}.h2{font-size:18px;font-weight:700}.body{font-size:18px}.bodyb{font-size:18px;font-weight:700}.edit{font-size:21px}.small{font-size:15px}.btntext{font-size:16px;font-weight:700;fill:#fff}
+</style>
+<rect class="bg" width="1400" height="1000"/>
+<rect class="head" width="1400" height="86"/>
+<text x="72" y="52" class="txt title">Mental Health Forum</text>
+<text x="72" y="73" class="txt sub muted">Talk with people who know what it is like</text>
+<rect class="nav" y="86" width="1400" height="52"/>
+<text x="86" y="120" class="navtxt">Home</text><text x="235" y="120" class="navtxt" font-weight="700">Forums</text><text x="386" y="120" class="navtxt">What's new</text><text x="536" y="120" class="navtxt">Members</text><text x="686" y="120" class="navtxt">Need urgent help?</text><text x="844" y="120" class="navtxt">Search</text>
+<text x="100" y="184" class="txt sub muted">Forums › Support thread</text>
+<rect class="card" x="95" y="210" width="1210" height="700" rx="7"/>
+<text x="125" y="259" class="txt h1">Reply to thread</text>
+<rect class="warn" x="125" y="286" width="1135" height="109"/>
+<text x="150" y="328" class="txt" fill="#c03a48" font-size="22" font-weight="700">Your message needs revision before it can be posted</text>
+<text x="150" y="355" class="txt body">Our safety system detected wording that may describe a harmful method or action. Please edit the highlighted part before</text>
+<text x="150" y="378" class="txt body">submitting. If you are in immediate danger, contact local emergency services or a crisis support line.</text>
+<text x="125" y="445" class="txt h2">Message</text>
+<rect class="toolbar" x="125" y="457" width="1135" height="45"/>
+<rect class="btn" x="145" y="466" width="71" height="27" rx="4"/><text x="181" y="485" text-anchor="middle" class="txt" font-size="14" font-weight="700">B</text>
+<rect class="btn" x="227" y="466" width="71" height="27" rx="4"/><text x="263" y="485" text-anchor="middle" class="txt" font-size="14" font-weight="700">I</text>
+<rect class="btn" x="309" y="466" width="71" height="27" rx="4"/><text x="345" y="485" text-anchor="middle" class="txt" font-size="14" font-weight="700">U</text>
+<rect class="btn" x="392" y="466" width="71" height="27" rx="4"/><text x="428" y="485" text-anchor="middle" class="txt" font-size="14" font-weight="700">Link</text>
+<rect class="btn" x="474" y="466" width="71" height="27" rx="4"/><text x="510" y="485" text-anchor="middle" class="txt" font-size="14" font-weight="700">Quote</text>
+<rect class="btn" x="556" y="466" width="71" height="27" rx="4"/><text x="592" y="485" text-anchor="middle" class="txt" font-size="14" font-weight="700">Emoji</text>
+<rect class="btn" x="638" y="466" width="71" height="27" rx="4"/><text x="674" y="485" text-anchor="middle" class="txt" font-size="14" font-weight="700">Preview</text>
+<rect class="editor" x="125" y="502" width="1135" height="233"/>
+<text x="145" y="542" class="txt edit">I feel overwhelmed and feel like </text>
+<rect class="mark" x="472" y="522" width="155" height="30" rx="3"/>
+<text x="481" y="542" class="txt edit">cutting myself</text><text x="627" y="542" class="txt edit">.</text>
+<text x="145" y="580" class="txt edit">I do not want this to be public until I have rewritten it safely.</text>
+<text x="145" y="704" class="txt small muted">The highlighted wording is the exact span returned by the classifier API.</text>
+<rect class="summary" x="125" y="760" width="1135" height="58"/>
+<text x="150" y="792" class="txt bodyb">Detected label: method_or_action    Score: 96    Suggested action: revise</text>
+<rect class="cancel" x="1010" y="842" width="122" height="46" rx="6"/><text x="1071" y="870" text-anchor="middle" class="txt body">Cancel</text>
+<rect class="blue" x="1145" y="842" width="117" height="46" rx="6"/><text x="1203" y="870" text-anchor="middle" class="btntext">Try again</text>
+</svg>
