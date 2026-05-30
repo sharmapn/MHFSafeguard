@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<class_extensions>
+  <extension from_class="XF\Service\Post\Preparer" to_class="Pankaj\MHFSafeguard\XF\Service\Post\Preparer" execute_order="10" active="1"/>
+  <extension from_class="XF\Service\Thread\Creator" to_class="Pankaj\MHFSafeguard\XF\Service\Thread\Creator" execute_order="10" active="1"/>
+  <extension from_class="XF\Service\Thread\Replier" to_class="Pankaj\MHFSafeguard\XF\Service\Thread\Replier" execute_order="10" active="1"/>
+  <extension from_class="XF\Service\Post\Editor" to_class="Pankaj\MHFSafeguard\XF\Service\Post\Editor" execute_order="10" active="1"/>
+</class_extensions>

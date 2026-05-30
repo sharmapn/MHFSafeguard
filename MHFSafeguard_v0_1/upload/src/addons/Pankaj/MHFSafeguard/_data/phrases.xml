@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<phrases>
+  <phrase title="option_group.mhfssafeguard" version_id="1" version_string="0.1.0"><![CDATA[MHF Safeguard]]></phrase>
+  <phrase title="option_group_description.mhfssafeguard" version_id="1" version_string="0.1.0"><![CDATA[Options for sending XenForo posts to your self-managed classification server.]]></phrase>
+
+  <phrase title="option.mhfsEnabled" version_id="1" version_string="0.1.0"><![CDATA[Enable MHF Safeguard scanning]]></phrase>
+  <phrase title="option.mhfsApiUrl" version_id="1" version_string="0.1.0"><![CDATA[Classifier API URL]]></phrase>
+  <phrase title="option.mhfsApiKey" version_id="1" version_string="0.1.0"><![CDATA[Classifier API key]]></phrase>
+  <phrase title="option.mhfsActionMode" version_id="1" version_string="0.1.0"><![CDATA[Action mode]]></phrase>
+  <phrase title="option.mhfsModerateThreshold" version_id="1" version_string="0.1.0"><![CDATA[Moderation threshold]]></phrase>
+  <phrase title="option.mhfsReviseThreshold" version_id="1" version_string="0.1.0"><![CDATA[Revision prompt threshold]]></phrase>
+  <phrase title="option.mhfsTimeout" version_id="1" version_string="0.1.0"><![CDATA[API timeout seconds]]></phrase>
+  <phrase title="option.mhfsFailOpen" version_id="1" version_string="0.1.0"><![CDATA[Fail open if API is unavailable]]></phrase>
+  <phrase title="option.mhfsStoreMessage" version_id="1" version_string="0.1.0"><![CDATA[Store cleaned message text in scan log]]></phrase>
+  <phrase title="option.mhfsStoreRawResponse" version_id="1" version_string="0.1.0"><![CDATA[Store raw API response]]></phrase>
+  <phrase title="option.mhfsExcludedForums" version_id="1" version_string="0.1.0"><![CDATA[Excluded forums]]></phrase>
+
+  <phrase title="option_explain.mhfsApiUrl" version_id="1" version_string="0.1.0"><![CDATA[Example: https://your-server.example/api/classify. The plugin sends one full cleaned message per request.]]></phrase>
+  <phrase title="option_explain.mhfsApiKey" version_id="1" version_string="0.1.0"><![CDATA[Optional bearer token sent as Authorization: Bearer YOUR_KEY.]]></phrase>
+  <phrase title="option_explain.mhfsActionMode" version_id="1" version_string="0.1.0"><![CDATA[Use log, moderate, or revise. log stores results but does not moderate. moderate sends risky posts to the moderation queue. revise shows a user-facing revision message.]]></phrase>
+  <phrase title="option_explain.mhfsStoreMessage" version_id="1" version_string="0.1.0"><![CDATA[For privacy, leave this off unless debugging. The message hash is always stored.]]></phrase>
+  <phrase title="option_explain.mhfsExcludedForums" version_id="1" version_string="0.1.0"><![CDATA[Posts in selected forums will not be sent to the classifier API.]]></phrase>
+
+  <phrase title="mhfs_please_revise_message" version_id="1" version_string="0.1.0"><![CDATA[Your message may contain content that needs revision before posting. Please remove or reword the highlighted harmful method/action language and try again.]]></phrase>
+</phrases>
