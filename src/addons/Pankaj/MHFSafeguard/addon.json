@@ -1,0 +1,13 @@
+{
+    "legacy_addon_id": "",
+    "title": "MHF Safeguard",
+    "description": "Sends XenForo posts to a self-managed classifier API for mental-health forum safety moderation.",
+    "version_id": 1,
+    "version_string": "0.1.0",
+    "dev": "Pankaj Sharma",
+    "dev_url": "https://sharmapn.github.io/",
+    "faq_url": "",
+    "support_url": "",
+    "extra_urls": [],
+    "require": []
+}
