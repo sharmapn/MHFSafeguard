@@ -1,410 +1,149 @@
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
-from sklearn.metrics import (
-    accuracy_score, f1_score, precision_score, recall_score,
-    cohen_kappa_score, matthews_corrcoef, confusion_matrix,
-    precision_recall_fscore_support, average_precision_score,
-    log_loss, fbeta_score, roc_auc_score
-)
-from sklearn.preprocessing import LabelEncoder
+# metrics_calculator.py
+# Stable metrics helper for the MHF Safeguard ML/DL training scripts.
 
-# def calculate_metrics(y_true, y_pred, y_pred_proba=None, classes=None):
-#     metrics = {}
-    
-#     # Encode y_true and y_pred if they are not numeric
-#     label_encoder = LabelEncoder()
-#     y_true_encoded = label_encoder.fit_transform(y_true)
-#     y_pred_encoded = label_encoder.transform(y_pred)
-#     encoded_classes = label_encoder.classes_ if classes is None else classes
-    
-#     # Basic Metrics
-#     metrics['accuracy'] = accuracy_score(y_true_encoded, y_pred_encoded)
-#     metrics['f1_weighted'] = f1_score(y_true_encoded, y_pred_encoded, average='weighted', zero_division=0)
-#     metrics['precision_weighted'] = precision_score(y_true_encoded, y_pred_encoded, average='weighted', zero_division=0)
-#     metrics['recall_weighted'] = recall_score(y_true_encoded, y_pred_encoded, average='weighted', zero_division=0)
+from __future__ import annotations
 
-#     # Additional Metrics
-#     metrics['cohen_kappa'] = cohen_kappa_score(y_true_encoded, y_pred_encoded)
-#     metrics['mcc'] = matthews_corrcoef(y_true_encoded, y_pred_encoded)
+from pathlib import Path
+from typing import Iterable, Optional, Sequence
 
-#     # PR AUC and ROC AUC for multi-class if probabilities are provided
-#     if y_pred_proba is not None and len(encoded_classes) > 2:
-#         # Calculate PR AUC for each class and average
-#         pr_auc_scores = []
-#         for i in range(len(encoded_classes)):
-#             pr_auc = average_precision_score((y_true_encoded == i).astype(int), y_pred_proba[:, i])
-#             pr_auc_scores.append(pr_auc)
-#         metrics['pr_auc'] = np.mean(pr_auc_scores)  # Weighted average PR AUC
-        
-#         metrics['roc_auc'] = roc_auc_score(y_true_encoded, y_pred_proba, multi_class="ovr", average="weighted")
-#         metrics['log_loss'] = log_loss(y_true_encoded, y_pred_proba)
-#     elif y_pred_proba is not None:
-#         # Binary case
-#         metrics['pr_auc'] = average_precision_score(y_true_encoded, y_pred_proba[:, 1])
-#         metrics['roc_auc'] = roc_auc_score(y_true_encoded, y_pred_proba[:, 1])
-#         metrics['log_loss'] = log_loss(y_true_encoded, y_pred_proba)
-#     else:
-#         # Fallback when probabilities are not provided
-#         metrics['pr_auc'] = average_precision_score(y_true_encoded, y_pred_encoded, average="weighted", zero_division=0)
-
-#     # F2 Score if recall is prioritized
-#     metrics['f2_score'] = fbeta_score(y_true_encoded, y_pred_encoded, beta=2, average='weighted', zero_division=0)
-
-#     # Class-wise Metrics
-#     precision, recall, fscore, _ = precision_recall_fscore_support(y_true_encoded, y_pred_encoded, average=None, labels=range(len(encoded_classes)), zero_division=0)
-#     metrics['class_precision'] = precision
-#     metrics['class_recall'] = recall
-#     metrics['class_fscore'] = fscore
-
-#     # Display Metrics
-#     print("\n--- Model Metrics ---")
-#     for metric, value in metrics.items():
-#         print(f"{metric}: {value}")
-#     print("\nClass-wise Precision, Recall, F1:")
-#     for i, label in enumerate(encoded_classes):
-#         print(f"Class: {label}")
-#         print(f"Precision: {precision[i]}, Recall: {recall[i]}, F1-Score: {fscore[i]}")
-#         print()
-
-#     # Confusion Matrix
-#     cm = confusion_matrix(y_true_encoded, y_pred_encoded, normalize='true')
-#     plt.figure(figsize=(8, 6))
-#     sns.heatmap(cm, annot=True, fmt=".2f", cmap="Blues", xticklabels=encoded_classes, yticklabels=encoded_classes)
-#     plt.xlabel('Predicted Labels')
-#     plt.ylabel('True Labels')
-#     plt.title('Normalized Confusion Matrix')
-#     plt.show()
-
-#     return metrics
-
-import matplotlib.pyplot as plt
-import seaborn as sns
+import json
 import numpy as np
 import pandas as pd
 from sklearn.metrics import (
-    accuracy_score, f1_score, precision_score, recall_score,
-    cohen_kappa_score, matthews_corrcoef, confusion_matrix,
-    precision_recall_fscore_support, average_precision_score,
-    log_loss, fbeta_score, roc_auc_score
+    accuracy_score,
+    average_precision_score,
+    classification_report,
+    cohen_kappa_score,
+    confusion_matrix,
+    f1_score,
+    fbeta_score,
+    log_loss,
+    matthews_corrcoef,
+    precision_recall_fscore_support,
+    precision_score,
+    recall_score,
+    roc_auc_score,
 )
 from sklearn.preprocessing import LabelEncoder
 
-# def calculate_metrics(y_true, y_pred, y_pred_proba=None, classes=None):
-#     metrics = {}
-    
-#     # Encode y_true and y_pred if they are not numeric
-#     label_encoder = LabelEncoder()
-#     y_true_encoded = label_encoder.fit_transform(y_true)
-#     y_pred_encoded = label_encoder.transform(y_pred)
-#     encoded_classes = label_encoder.classes_ if classes is None else classes
-    
-#     # Basic Metrics
-#     metrics['accuracy'] = accuracy_score(y_true_encoded, y_pred_encoded)
-#     metrics['f1_weighted'] = f1_score(y_true_encoded, y_pred_encoded, average='weighted', zero_division=0)
-#     metrics['precision_weighted'] = precision_score(y_true_encoded, y_pred_encoded, average='weighted', zero_division=0)
-#     metrics['recall_weighted'] = recall_score(y_true_encoded, y_pred_encoded, average='weighted', zero_division=0)
 
-#     # Additional Metrics
-#     metrics['cohen_kappa'] = cohen_kappa_score(y_true_encoded, y_pred_encoded)
-#     metrics['mcc'] = matthews_corrcoef(y_true_encoded, y_pred_encoded)
-
-#     # PR AUC and ROC AUC for multi-class if probabilities are provided
-#     if y_pred_proba is not None and len(encoded_classes) > 2:
-#         pr_auc_scores = [average_precision_score((y_true_encoded == i).astype(int), y_pred_proba[:, i]) for i in range(len(encoded_classes))]
-#         metrics['pr_auc'] = np.mean(pr_auc_scores)  # Weighted average PR AUC
-        
-#         metrics['roc_auc'] = roc_auc_score(y_true_encoded, y_pred_proba, multi_class="ovr", average="weighted")
-#         metrics['log_loss'] = log_loss(y_true_encoded, y_pred_proba)
-#     elif y_pred_proba is not None:
-#         metrics['pr_auc'] = average_precision_score(y_true_encoded, y_pred_proba[:, 1])
-#         metrics['roc_auc'] = roc_auc_score(y_true_encoded, y_pred_proba[:, 1])
-#         metrics['log_loss'] = log_loss(y_true_encoded, y_pred_proba)
-#     else:
-#         metrics['pr_auc'] = average_precision_score(y_true_encoded, y_pred_encoded, average="weighted", zero_division=0)
-
-#     # F2 Score if recall is prioritized
-#     metrics['f2_score'] = fbeta_score(y_true_encoded, y_pred_encoded, beta=2, average='weighted', zero_division=0)
-
-#     # Class-wise Metrics
-#     precision, recall, fscore, _ = precision_recall_fscore_support(
-#         y_true_encoded, y_pred_encoded, average=None, labels=range(len(encoded_classes)), zero_division=0
-#     )
-#     metrics['class_precision'] = precision
-#     metrics['class_recall'] = recall
-#     metrics['class_fscore'] = fscore
-
-#     # Display Metrics
-#     print("\n--- Model Metrics ---")
-#     for metric, value in metrics.items():
-#         print(f"{metric}: {value}")
-
-#     # Class-wise Precision, Recall, F1 table
-#     classwise_df = pd.DataFrame({
-#         'Class': encoded_classes,
-#         'Precision': precision,
-#         'Recall': recall,
-#         'F1-Score': fscore
-#     })
-    
-#     print("\nClass-wise Precision, Recall, and F1-Score:")
-#     print(classwise_df.to_string(index=False))
-
-#     # Confusion Matrix
-#     cm = confusion_matrix(y_true_encoded, y_pred_encoded, normalize='true')
-#     plt.figure(figsize=(8, 6))
-#     sns.heatmap(cm, annot=True, fmt=".2f", cmap="Blues", xticklabels=encoded_classes, yticklabels=encoded_classes)
-#     plt.xlabel('Predicted Labels')
-#     plt.ylabel('True Labels')
-#     plt.title('Normalized Confusion Matrix')
-#     plt.show()
-
-#     return metrics
+def _as_array(values: Iterable) -> np.ndarray:
+    return np.asarray(list(values))
 
 
-# def calculate_metrics(y_true, y_pred, y_pred_proba=None, classes=None):
-#     metrics = {}
-    
-#     # Encode y_true and y_pred if they are not numeric
-#     label_encoder = LabelEncoder()
-#     y_true_encoded = label_encoder.fit_transform(y_true)
-#     y_pred_encoded = label_encoder.transform(y_pred)
-#     encoded_classes = label_encoder.classes_ if classes is None else classes
-    
-#     # Basic Metrics
-#     metrics['accuracy'] = accuracy_score(y_true_encoded, y_pred_encoded)
-#     metrics['f1_weighted'] = f1_score(y_true_encoded, y_pred_encoded, average='weighted', zero_division=1)
-#     metrics['precision_weighted'] = precision_score(y_true_encoded, y_pred_encoded, average='weighted', zero_division=1)
-#     metrics['recall_weighted'] = recall_score(y_true_encoded, y_pred_encoded, average='weighted', zero_division=1)
-
-#     # Additional Metrics
-#     metrics['cohen_kappa'] = cohen_kappa_score(y_true_encoded, y_pred_encoded)
-#     metrics['mcc'] = matthews_corrcoef(y_true_encoded, y_pred_encoded)
-
-#     # PR AUC and ROC AUC for multi-class if probabilities are provided
-#     if y_pred_proba is not None and len(encoded_classes) > 2:
-#         pr_auc_scores = [average_precision_score((y_true_encoded == i).astype(int), y_pred_proba[:, i]) for i in range(len(encoded_classes))]
-#         metrics['pr_auc'] = np.mean(pr_auc_scores)  # Weighted average PR AUC
-        
-#         metrics['roc_auc'] = roc_auc_score(y_true_encoded, y_pred_proba, multi_class="ovr", average="weighted")
-#         metrics['log_loss'] = log_loss(y_true_encoded, y_pred_proba)
-#     elif y_pred_proba is not None:
-#         metrics['pr_auc'] = average_precision_score(y_true_encoded, y_pred_proba[:, 1])
-#         metrics['roc_auc'] = roc_auc_score(y_true_encoded, y_pred_proba[:, 1])
-#         metrics['log_loss'] = log_loss(y_true_encoded, y_pred_proba)
-#     else:
-#         metrics['pr_auc'] = average_precision_score(y_true_encoded, y_pred_encoded, average="weighted", zero_division=1)
-
-#     # F2 Score if recall is prioritized
-#     metrics['f2_score'] = fbeta_score(y_true_encoded, y_pred_encoded, beta=2, average='weighted', zero_division=1)
-
-#     # Class-wise Metrics
-#     precision, recall, fscore, _ = precision_recall_fscore_support(
-#         y_true_encoded, y_pred_encoded, average=None, labels=range(len(encoded_classes)), zero_division=1
-#     )
-#     metrics['class_precision'] = precision
-#     metrics['class_recall'] = recall
-#     metrics['class_fscore'] = fscore
-
-#     # Display Metrics
-#     print("\n--- Model Metrics ---")
-#     for metric, value in metrics.items():
-#         print(f"{metric}: {value}")
-
-#     # Class-wise Precision, Recall, F1 table
-#     classwise_df = pd.DataFrame({
-#         'Class': encoded_classes,
-#         'Precision': precision,
-#         'Recall': recall,
-#         'F1-Score': fscore
-#     })
-    
-#     print("\nClass-wise Precision, Recall, and F1-Score:")
-#     print(classwise_df.to_string(index=False))
-
-#     # Confusion Matrix
-#     cm = confusion_matrix(y_true_encoded, y_pred_encoded, normalize='true')
-#     plt.figure(figsize=(8, 6))
-#     sns.heatmap(cm, annot=True, fmt=".2f", cmap="Blues", xticklabels=encoded_classes, yticklabels=encoded_classes)
-#     plt.xlabel('Predicted Labels')
-#     plt.ylabel('True Labels')
-#     plt.title('Normalized Confusion Matrix')
-#     plt.show()
-
-#     return metrics
-
-# import matplotlib.pyplot as plt
-# import seaborn as sns
-# import numpy as np
-# import pandas as pd
-# from sklearn.metrics import (
-#     accuracy_score, f1_score, precision_score, recall_score,
-#     cohen_kappa_score, matthews_corrcoef, confusion_matrix,
-#     precision_recall_fscore_support, average_precision_score,
-#     log_loss, fbeta_score, roc_auc_score
-# )
-# from sklearn.preprocessing import LabelEncoder
-
-# def calculate_metrics(y_true, y_pred, y_pred_proba=None, classes=None):
-#     metrics = {}
-    
-#     # Encode y_true and y_pred if they are not numeric
-#     label_encoder = LabelEncoder()
-#     y_true_encoded = label_encoder.fit_transform(y_true)
-#     y_pred_encoded = label_encoder.transform(y_pred)
-#     encoded_classes = label_encoder.classes_ if classes is None else classes
-    
-#     # Basic Metrics with zero_division set to handle undefined metrics
-#     metrics['accuracy'] = accuracy_score(y_true_encoded, y_pred_encoded)
-#     metrics['f1_weighted'] = f1_score(y_true_encoded, y_pred_encoded, average='weighted', zero_division=1)
-#     metrics['precision_weighted'] = precision_score(y_true_encoded, y_pred_encoded, average='weighted', zero_division=1)
-#     metrics['recall_weighted'] = recall_score(y_true_encoded, y_pred_encoded, average='weighted', zero_division=1)
-
-#     # Additional Metrics
-#     metrics['cohen_kappa'] = cohen_kappa_score(y_true_encoded, y_pred_encoded)
-#     metrics['mcc'] = matthews_corrcoef(y_true_encoded, y_pred_encoded)
-
-#     # PR AUC and ROC AUC for multi-class if probabilities are provided
-#     if y_pred_proba is not None and len(encoded_classes) > 2:
-#         pr_auc_scores = [
-#             average_precision_score((y_true_encoded == i).astype(int), y_pred_proba[:, i], zero_division=1)
-#             for i in range(len(encoded_classes))
-#         ]
-#         metrics['pr_auc'] = np.mean(pr_auc_scores)  # Weighted average PR AUC
-#         metrics['roc_auc'] = roc_auc_score(y_true_encoded, y_pred_proba, multi_class="ovr", average="weighted")
-#         metrics['log_loss'] = log_loss(y_true_encoded, y_pred_proba)
-#     elif y_pred_proba is not None:
-#         metrics['pr_auc'] = average_precision_score(y_true_encoded, y_pred_proba[:, 1], zero_division=1)
-#         metrics['roc_auc'] = roc_auc_score(y_true_encoded, y_pred_proba[:, 1])
-#         metrics['log_loss'] = log_loss(y_true_encoded, y_pred_proba)
-#     else:
-#         metrics['pr_auc'] = average_precision_score(y_true_encoded, y_pred_encoded, average="weighted", zero_division=1)
-
-#     # F2 Score if recall is prioritized
-#     metrics['f2_score'] = fbeta_score(y_true_encoded, y_pred_encoded, beta=2, average='weighted', zero_division=1)
-
-#     # Class-wise Metrics
-#     precision, recall, fscore, _ = precision_recall_fscore_support(
-#         y_true_encoded, y_pred_encoded, average=None, labels=range(len(encoded_classes)), zero_division=1
-#     )
-#     metrics['class_precision'] = precision
-#     metrics['class_recall'] = recall
-#     metrics['class_fscore'] = fscore
-
-#     # Display Metrics
-#     print("\n--- Model Metrics ---")
-#     for metric, value in metrics.items():
-#         print(f"{metric}: {value}")
-
-#     # Class-wise Precision, Recall, F1 table
-#     classwise_df = pd.DataFrame({
-#         'Class': encoded_classes,
-#         'Precision': precision,
-#         'Recall': recall,
-#         'F1-Score': fscore
-#     })
-    
-#     print("\nClass-wise Precision, Recall, and F1-Score:")
-#     print(classwise_df.to_string(index=False))
-
-#     # Confusion Matrix
-#     cm = confusion_matrix(y_true_encoded, y_pred_encoded, normalize='true')
-#     plt.figure(figsize=(8, 6))
-#     sns.heatmap(cm, annot=True, fmt=".2f", cmap="Blues", xticklabels=encoded_classes, yticklabels=encoded_classes)
-#     plt.xlabel('Predicted Labels')
-#     plt.ylabel('True Labels')
-#     plt.title('Normalized Confusion Matrix')
-#     plt.show()
-
-#     return metrics
+def _normalise_proba(y_pred_proba: Optional[np.ndarray]) -> Optional[np.ndarray]:
+    if y_pred_proba is None:
+        return None
+    proba = np.asarray(y_pred_proba)
+    if proba.ndim != 2:
+        return None
+    return proba
 
 
-import matplotlib.pyplot as plt
-import seaborn as sns
-import numpy as np
-import pandas as pd
-from sklearn.metrics import (
-    accuracy_score, f1_score, precision_score, recall_score,
-    cohen_kappa_score, matthews_corrcoef, confusion_matrix,
-    precision_recall_fscore_support, average_precision_score,
-    log_loss, fbeta_score, roc_auc_score
-)
-from sklearn.preprocessing import LabelEncoder
+def calculate_metrics(
+    y_true: Iterable,
+    y_pred: Iterable,
+    y_pred_proba: Optional[np.ndarray] = None,
+    classes: Optional[Sequence[str]] = None,
+    model_name: str = "model",
+    output_dir: Optional[str | Path] = None,
+) -> dict:
+    """Calculate standard classification metrics safely.
 
-def calculate_metrics(y_true, y_pred, y_pred_proba=None, classes=None):
-    metrics = {}
-    
-    # Encode y_true and y_pred if they are not numeric
-    label_encoder = LabelEncoder()
-    y_true_encoded = label_encoder.fit_transform(y_true)
-    y_pred_encoded = label_encoder.transform(y_pred)
-    encoded_classes = label_encoder.classes_ if classes is None else classes
-    
-    # Basic Metrics with zero_division set to handle undefined metrics
-    metrics['accuracy'] = accuracy_score(y_true_encoded, y_pred_encoded)
-    metrics['f1_weighted'] = f1_score(y_true_encoded, y_pred_encoded, average='weighted', zero_division=1)
-    metrics['precision_weighted'] = precision_score(y_true_encoded, y_pred_encoded, average='weighted', zero_division=1)
-    metrics['recall_weighted'] = recall_score(y_true_encoded, y_pred_encoded, average='weighted', zero_division=1)
+    This function accepts either string labels or numeric labels. If probability
+    estimates are provided, PR-AUC, ROC-AUC, and log-loss are calculated only
+    when the shape of the probability matrix is compatible with the encoded
+    labels.
+    """
 
-    # Additional Metrics
-    metrics['cohen_kappa'] = cohen_kappa_score(y_true_encoded, y_pred_encoded)
-    metrics['mcc'] = matthews_corrcoef(y_true_encoded, y_pred_encoded)
+    y_true_arr = _as_array(y_true)
+    y_pred_arr = _as_array(y_pred)
 
-    # PR AUC and ROC AUC for multi-class if probabilities are provided
-    if y_pred_proba is not None and len(encoded_classes) > 2:
-        pr_auc_scores = []
-        for i in range(len(encoded_classes)):
-            # Check if there are any positive instances for the current class
-            if np.any(y_true_encoded == i):
-                pr_auc = average_precision_score((y_true_encoded == i).astype(int), y_pred_proba[:, i])
-                pr_auc_scores.append(pr_auc)
-            else:
-                pr_auc_scores.append(0.0)  # Assign 0 if no instances of the class
-        metrics['pr_auc'] = np.mean(pr_auc_scores)  # Weighted average PR AUC
-
-        metrics['roc_auc'] = roc_auc_score(y_true_encoded, y_pred_proba, multi_class="ovr", average="weighted")
-        metrics['log_loss'] = log_loss(y_true_encoded, y_pred_proba)
-    elif y_pred_proba is not None:
-        metrics['pr_auc'] = average_precision_score(y_true_encoded, y_pred_proba[:, 1])
-        metrics['roc_auc'] = roc_auc_score(y_true_encoded, y_pred_proba[:, 1])
-        metrics['log_loss'] = log_loss(y_true_encoded, y_pred_proba)
+    encoder = LabelEncoder()
+    if classes is not None:
+        encoder.fit(list(classes))
     else:
-        metrics['pr_auc'] = average_precision_score(y_true_encoded, y_pred_encoded, average="weighted", zero_division=1)
+        encoder.fit(np.unique(np.concatenate([y_true_arr.astype(str), y_pred_arr.astype(str)])))
 
-    # F2 Score if recall is prioritized
-    metrics['f2_score'] = fbeta_score(y_true_encoded, y_pred_encoded, beta=2, average='weighted', zero_division=1)
+    y_true_enc = encoder.transform(y_true_arr.astype(str))
+    y_pred_enc = encoder.transform(y_pred_arr.astype(str))
+    class_names = list(encoder.classes_)
 
-    # Class-wise Metrics
-    precision, recall, fscore, _ = precision_recall_fscore_support(
-        y_true_encoded, y_pred_encoded, average=None, labels=range(len(encoded_classes)), zero_division=1
+    metrics = {
+        "model": model_name,
+        "accuracy": float(accuracy_score(y_true_enc, y_pred_enc)),
+        "f1_weighted": float(f1_score(y_true_enc, y_pred_enc, average="weighted", zero_division=0)),
+        "f1_macro": float(f1_score(y_true_enc, y_pred_enc, average="macro", zero_division=0)),
+        "precision_weighted": float(precision_score(y_true_enc, y_pred_enc, average="weighted", zero_division=0)),
+        "recall_weighted": float(recall_score(y_true_enc, y_pred_enc, average="weighted", zero_division=0)),
+        "cohen_kappa": float(cohen_kappa_score(y_true_enc, y_pred_enc)),
+        "mcc": float(matthews_corrcoef(y_true_enc, y_pred_enc)),
+        "f2_score": float(fbeta_score(y_true_enc, y_pred_enc, beta=2, average="weighted", zero_division=0)),
+    }
+
+    proba = _normalise_proba(y_pred_proba)
+    if proba is not None and proba.shape[0] == len(y_true_enc) and proba.shape[1] == len(class_names):
+        try:
+            if len(class_names) == 2:
+                metrics["pr_auc"] = float(average_precision_score(y_true_enc, proba[:, 1]))
+                metrics["roc_auc"] = float(roc_auc_score(y_true_enc, proba[:, 1]))
+            else:
+                pr_scores = []
+                for class_index in range(len(class_names)):
+                    pr_scores.append(average_precision_score((y_true_enc == class_index).astype(int), proba[:, class_index]))
+                metrics["pr_auc"] = float(np.mean(pr_scores))
+                metrics["roc_auc"] = float(roc_auc_score(y_true_enc, proba, multi_class="ovr", average="weighted"))
+            metrics["log_loss"] = float(log_loss(y_true_enc, proba, labels=list(range(len(class_names)))))
+        except Exception as exc:
+            metrics["probability_metric_error"] = str(exc)
+
+    precision, recall, fscore, support = precision_recall_fscore_support(
+        y_true_enc,
+        y_pred_enc,
+        labels=list(range(len(class_names))),
+        zero_division=0,
     )
-    metrics['class_precision'] = precision
-    metrics['class_recall'] = recall
-    metrics['class_fscore'] = fscore
 
-    # Display Metrics
-    print("\n--- Model Metrics ---")
-    for metric, value in metrics.items():
-        print(f"{metric}: {value}")
-
-    # Class-wise Precision, Recall, F1 table
     classwise_df = pd.DataFrame({
-        'Class': encoded_classes,
-        'Precision': precision,
-        'Recall': recall,
-        'F1-Score': fscore
+        "Class": class_names,
+        "Precision": precision,
+        "Recall": recall,
+        "F1-Score": fscore,
+        "Support": support,
     })
-    
+
+    report_text = classification_report(
+        y_true_enc,
+        y_pred_enc,
+        labels=list(range(len(class_names))),
+        target_names=class_names,
+        zero_division=0,
+    )
+
+    cm = confusion_matrix(y_true_enc, y_pred_enc, labels=list(range(len(class_names))))
+
+    print("\n--- Model Metrics ---")
+    for key, value in metrics.items():
+        print(f"{key}: {value}")
+
     print("\nClass-wise Precision, Recall, and F1-Score:")
     print(classwise_df.to_string(index=False))
 
-    # Confusion Matrix
-    cm = confusion_matrix(y_true_encoded, y_pred_encoded, normalize='true')
-    plt.figure(figsize=(8, 6))
-    sns.heatmap(cm, annot=True, fmt=".2f", cmap="Blues", xticklabels=encoded_classes, yticklabels=encoded_classes)
-    plt.xlabel('Predicted Labels')
-    plt.ylabel('True Labels')
-    plt.title('Normalized Confusion Matrix')
-    plt.show()
+    print("\nClassification Report:")
+    print(report_text)
+
+    if output_dir is not None:
+        output_path = Path(output_dir)
+        output_path.mkdir(parents=True, exist_ok=True)
+
+        safe_model_name = "".join(ch if ch.isalnum() or ch in ["_", "-"] else "_" for ch in model_name)
+        classwise_df.to_csv(output_path / f"{safe_model_name}_classwise_metrics.csv", index=False)
+        pd.DataFrame(cm, index=class_names, columns=class_names).to_csv(output_path / f"{safe_model_name}_confusion_matrix.csv")
+        (output_path / f"{safe_model_name}_classification_report.txt").write_text(report_text, encoding="utf-8")
+        (output_path / f"{safe_model_name}_metrics.json").write_text(json.dumps(metrics, indent=2), encoding="utf-8")
+
+    metrics["classwise"] = classwise_df
+    metrics["confusion_matrix"] = cm
+    metrics["classification_report_text"] = report_text
 
     return metrics
