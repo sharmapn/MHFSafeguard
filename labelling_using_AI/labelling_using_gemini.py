@@ -28,7 +28,7 @@ MAX_WORDS_PER_CHUNK = 1000  # Can adjust based on API token limitss
 
 # Load environment variables
 load_dotenv()
-api_key = "AIzaSyCz7Sq8EJeGZ2WOFmC4RAULMBf5A5xPfKg" #os.getenv("API_KEY")
+api_key = "" #os.getenv("API_KEY")
 if not api_key:
     raise ValueError("API key not found. Please set your API_KEY in the environment.")
 
