@@ -20,11 +20,7 @@ MAX_WORDS_PER_CHUNK = 1000  # Can adjust based on API token limitss
 
 # new script to classify theos emessages whoch were not classified
 
-## 227036
-#select count (distinct post_id) from SuicideAndDepressionDetectionKaggleDataset_classified_sentences
-## 232074
-#select count (distinct id) from SuicideAndDepressionDetectionKaggleDataset
-## 3000 less
+
 
 # Load environment variables
 load_dotenv()
