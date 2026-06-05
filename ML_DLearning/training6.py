@@ -251,8 +251,7 @@ SELECT Suicide AS label, COUNT(*) AS count FROM (
     -- generated_sentences
     SELECT TRIM(label) AS Suicide
     FROM generated_sentences
-    WHERE ID < 32000
-
+    
     UNION ALL
 
     -- paraphrases4 (using original_label and only those to be considered)
@@ -292,7 +291,7 @@ print(label_counts_df.to_string(index=False))
 df_full = pd.read_sql_query(
     " SELECT sentence as Tweet, label as Suicide FROM MH_forum_388_sentences WHERE label IN ('Not Suicide post','Suicide or Self Harm Ideation','Method or action of Suicide, Self-Harm or Harming others')"  # actual sentences from MH_forum
     # synthetic generates sentences using the MHF 'keywords'
-    " UNION ALL SELECT sentence as Tweet, label as Suicide FROM generated_sentences WHERE ID < 32000 "  # generated sentences using keywords # one row from more than 32k gave error
+    " UNION ALL SELECT sentence as Tweet, label as Suicide FROM generated_sentences "  
     # paraphrases
     " UNION ALL SELECT paraphrases AS Tweet, original_label AS Suicide FROM paraphrases4 WHERE to_consider = 1 "
     # " UNION ALL SELECT paraphrases as Tweet, label as Suicide FROM paraphrases4 "  # paraphrased rows
