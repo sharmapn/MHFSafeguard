@@ -220,19 +220,13 @@ if gpus:
 # For TensorFlow 2.16.2 and later, use:
 # tf.config.set_logical_device_configuration(gpus[0], [tf.config.LogicalDeviceConfiguration(memory_limit=4096)])  # Set memory limit to 4GB for the first GPU
 
-
 # **Load Dataset**
-
-
-
 
 # Read sqlite query results into a pandas DataFrSuicide or Self Harm Methodame
 con = sqlite3.connect(str(DB_PATH))
 
-
 # Just out ut the number of rows for each label
 import pandas as pd
-
 
 # SQL query to get label counts across all sources
 label_count_query = """
