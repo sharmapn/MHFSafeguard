@@ -224,138 +224,15 @@ if gpus:
 # **Load Dataset**
 
 
-# first and second dataset
-#df=pd.read_csv("Twitter_Suicide_Dataset_cleaned3.csv", engine='python', encoding='UTF-8')
-# third dataset
-#df=pd.read_csv("filtered_output.csv", engine='python', encoding='UTF-8') # 3rdDataset_output.csv 
-#df=df.replace('Potential Suicide post ','Potential Suicide post')
-#df
-#print(df['LABEL'].unique())
-#df=pd.read_csv("all_datasets_cleaned3.csv", engine='python', encoding='UTF-8') # 3rdDataset_output.csv 
-#df=df.replace('Potential Suicide post ','Potential Suicide post')
-#df
-#print(df['LABEL'].unique())
+
 
 # Read sqlite query results into a pandas DataFrSuicide or Self Harm Methodame
 con = sqlite3.connect(str(DB_PATH))
-# multiple datasets
-# SELECT sentence as Tweet, label as Suicide FROM sent_388_original_labelled ORDER BY ID ASC LIMIT 4000 
-# UNION 
-# SELECT sentence as Tweet, label as Suicide FROM generated_sentences
 
-#df = pd.read_sql_query("SELECT sentence as Tweet, label as Suicide FROM first_dataset_twitter_suicide UNION SELECT sentence as Tweet, label as Suicide FROM second_dataset_forum388_labelled", con)
-# UNION ALL SELECT sentence as Tweet, label as Suicide FROM generated_sentences         
-# UNION ALL SELECT sentence as Tweet, label as Suicide FROM generated_sentences WHERE ID < 20000   
-# WHERE ID < 2543666                                                                                                                  # 10000
-#df = pd.read_sql_query("SELECT sentence as Tweet, label as Suicide FROM MH_forum_388_sentences UNION ALL SELECT sentence as Tweet, label as Suicide FROM generated_sentences WHERE ID < 32000 UNION ALL SELECT paraphrases as Tweet, label as Suicide FROM paraphrases2", con)
-
-
-# change the label names
-# select distinct label from MH_forum_388_sentences  
-
-# UPDATE MH_forum_388_sentences set label = 'Method or action of Suicide, Self-Harm or Harming others' 
-# where label = 'Suicide method, Self Harm Method or Method to harm others'
-
-# UPDATE MH_forum_388_sentences set label = 'Method or action of Suicide, Self-Harm or Harming others' where label = 'Self-harm'
-# UPDATE MH_forum_388_sentences set label = 'Method or action of Suicide, Self-Harm or Harming others' where label = 'Harming Others'
-# UPDATE MH_forum_388_sentences set label = 'Suicide or Self-harm Ideation' where label = 'Self-harm Ideation'
-# UPDATE MH_forum_388_sentences set label = 'Suicide or Self-harm Ideation' where label = 'Suicide Ideation post'
-# UPDATE MH_forum_388_sentences set label = 'Not Ideation or method or action' where label = 'Not Suicide post'
-
-# select distinct label from generated_sentences  
-# select * from generated_sentences
-# UPDATE generated_sentences set label = 'Method or action of Suicide, Self-Harm or Harming others' where label = 'Suicide method, Self Harm Method or Method to harm others';
-# UPDATE generated_sentences set label = 'Method or action of Suicide, Self-Harm or Harming others' where label = 'Self-harm';
-# UPDATE generated_sentences set label = 'Method or action of Suicide, Self-Harm or Harming others' where label = 'Harming Others';
-# UPDATE generated_sentences set label = 'Suicide or Self-harm Ideation' where label = 'Suicide Ideation post';
-
-# select * from paraphrases2
-# select distinct label from paraphrases2  
-# UPDATE paraphrases2 set label = 'Method or action of Suicide, Self-Harm or Harming others' where label = 'Suicide method, Self Harm Method or Method to harm others';
-# UPDATE paraphrases2 set label = 'Method or action of Suicide, Self-Harm or Harming others' where label = 'Self-harm';
-# UPDATE paraphrases2 set label = 'Method or action of Suicide, Self-Harm or Harming others' where label = 'Harming Others';
-# UPDATE paraphrases2 set label = 'Suicide or Self-harm Ideation' where label = 'Suicide Ideation post';
-# UPDATE paraphrases2 set label = 'Suicide or Self-harm Ideation' where label = 'Self-harm Ideation';
-# UPDATE paraphrases2 set label = 'Not Ideation or method or action' where label = 'Not Suicide post'
-
-# Suicide And Depression Detection Kaggle Dataset
-#
-# select count (distinct post_id) from SuicideAndDepressionDetectionKaggleDataset_classified_sentences
-# -- 227036 
-# select count (distinct id) from SuicideAndDepressionDetectionKaggleDataset
-# -- 232074 = 3000 posts that are not labelled
-# select count (id) from SuicideAndDepressionDetectionKaggleDataset_classified_sentences
-# -- 2024076 total sentences that can be trained
-
-# SuicideForumPosts
-# select count (distinct id) from posts
-# -- 95201
-# select count (distinct post_id) from SuicideForumPosts_classified_sentences
-# -- 80026 = 15k posts that are not labelled
-# select count (id) from SuicideForumPosts_classified_sentences
-# -- 900713 total sentences that can be trained
-
-# UPDATE LABELS AFTER AI LABELLING
-# -- SELECT sentence as Tweet, label as Suicide FROM MH_forum_388_sentences 
-# -- UNION ALL SELECT sentence as Tweet, label as Suicide FROM generated_sentences WHERE ID < 32000 
-# -- UNION ALL SELECT paraphrases as Tweet, label as Suicide FROM paraphrases2
-# -- UNION ALL 
-# -- SELECT sentence as Tweet, first_label as Suicide FROM SuicideAndDepressionDetectionKaggleDataset_classified_sentences 
-# SELECT first_label, count(*) as count FROM SuicideAndDepressionDetectionKaggleDataset_classified_sentences 
-# group by first_label
-
-# SELECT * FROM SuicideAndDepressionDetectionKaggleDataset_classified_sentences WHERE first_label like 'Error'
-# SELECT * FROM SuicideAndDepressionDetectionKaggleDataset_classified_sentences WHERE first_label like 'Medical Refusal'
-# SELECT * FROM SuicideAndDepressionDetectionKaggleDataset_classified_sentences WHERE first_label like 'Existential Crisis / Hopelessness'
-
-# SELECT * FROM SuicideAndDepressionDetectionKaggleDataset_classified_sentences 
-# WHERE first_label like '%Active Suicidal Ideation with Any Methods (Not Plan) without Intent to Act%'
-
-# -- UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences
-# -- SET first_label = 'Method or action of Suicide, Self-Harm or Harming others' WHERE first_label LIKE '%Active Suicidal Ideation with Any Methods (Not Plan) without Intent to Act%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences
-# SET first_label = 'Method or action of Suicide, Self-Harm or Harming others' WHERE first_label LIKE '%Active Suicidal Ideation with Any Methods (Not Plan) without Intent to Act%';
-
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Method or action of Suicide, Self-Harm or Harming others' WHERE first_label LIKE '%Methods or actions of Suicide, Self Harm or harming others%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Method or action of Suicide, Self-Harm or Harming others' WHERE first_label LIKE '%Methods or actions of Suicide, Self-Harm or harming others%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Method or action of Suicide, Self-Harm or Harming others' WHERE first_label LIKE '%Methods or actions of harming others%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Method or action of Suicide, Self-Harm or Harming others' WHERE first_label LIKE '%Active Suicidal Ideation with Any Methods (Not Plan) without Intent to Act%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Method or action of Suicide, Self-Harm or Harming others' WHERE first_label LIKE '%Active Suicidal Ideation with Any Methods (Not Plan) without Intent to Act%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Method or action of Suicide, Self-Harm or Harming others' WHERE first_label LIKE '%Methods or actions of Self-Harm%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Method or action of Suicide, Self-Harm or Harming others' WHERE first_label LIKE '%Methods or actions of Self-Harm or harming others%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Method or action of Suicide, Self-Harm or Harming others' WHERE first_label LIKE '%Methods or actions of Suicide%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Method or action of Suicide, Self-Harm or Harming others' WHERE first_label LIKE '%Methods or actions of Self Harm or harming others%'
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Method or action of Suicide, Self-Harm or Harming others' WHERE first_label LIKE '%Suicide Methods or actions%'
-
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Suicide or Self Harm Ideation' WHERE first_label LIKE '%Self Harm Ideation%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Suicide or Self Harm Ideation' WHERE first_label LIKE '%Self Harm Ideation (No Action Stated)%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Suicide or Self Harm Ideation' WHERE first_label LIKE '%Self-Harm Ideation (No Action Stated)%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Suicide or Self Harm Ideation' WHERE first_label LIKE '%Self-Harm Ideation%';
-
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Suicide or Self Harm Ideation' WHERE first_label LIKE '%Active Suicidal Ideation with Non-Specific Methods%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Suicide or Self Harm Ideation' WHERE first_label LIKE '%Active Suicidal Ideation with Some Intent to Act, without Specific Plan%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Suicide or Self Harm Ideation' WHERE first_label LIKE '%Active Suicidal Ideation with Specific Plan and Intent%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Suicide or Self Harm Ideation' WHERE first_label LIKE '%Active Suicidal Ideation with Specific Plan and Intent%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Suicide or Self Harm Ideation' WHERE first_label LIKE '%General Suicidal Ideation (No Specific Action)%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Suicide or Self Harm Ideation' WHERE first_label LIKE '%Passive Suicidal Ideation%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Suicide or Self Harm Ideation' WHERE first_label LIKE '%Passive Suicidal Ideation (No Intention or Plan)%';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Suicide or Self Harm Ideation' WHERE first_label LIKE '%Non-specific Active Suicidal Thoughts%';
-# -- lets make life easy or ourselves by combining these tricly labels
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Suicide or Self Harm Ideation' WHERE first_label LIKE '%Thoughts of Death Without Suicidal Intent%';   
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Suicide or Self Harm Ideation' WHERE first_label LIKE '%Wish to be Dead%';
-
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Not Suicide post' WHERE first_label LIKE '';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Not Suicide post' WHERE first_label LIKE 'Error';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Not Suicide post' WHERE first_label LIKE 'Not suicide sentence';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Not Suicide post' WHERE first_label LIKE 'Not suicide sentence';
-# UPDATE SuicideAndDepressionDetectionKaggleDataset_classified_sentences SET first_label = 'Not Suicide post' WHERE first_label LIKE 'Medical Refusal';
 
 # Just out ut the number of rows for each label
 import pandas as pd
 
-#20 October 2025...some sentenecs were incorreclty labelled by gemini. these related to suicde or self harm ideation but has methds or actions. 
-# so had to relabel them using UPDATE COLUM based on another colum that was labelled
-# have to do this for the paraphrases which were also based on this table incorrectly labelled
 
 # SQL query to get label counts across all sources
 label_count_query = """
@@ -424,18 +301,6 @@ df_full = pd.read_sql_query(
     # " UNION ALL SELECT sentence as Tweet, first_label as Suicide FROM SuicideForumPosts_classified_sentences ",
     con
 )
-
-# C:\projectscode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\machine_learning>start /affinity FFFF /high python training5_additional_datasets_improved_code.py
-
-# Load only actual sentences for testing
-# we cant consider the paraphrased and generated ones here
-# df_actual = pd.read_sql_query(
-#     "SELECT sentence as Tweet, label as Suicide FROM MH_forum_388_sentences"
-#     "UNION ALL SELECT sentence as Tweet, first_label as Suicide FROM SuicideAndDepressionDetectionKaggleDataset_classified_sentences"
-#     "UNION ALL SELECT sentence as Tweet, first_label as Suicide FROM SuicideForumPosts_classified_sentences",
-#     con
-# )
-
 
 
 if USE_ACTUAL_ONLY_TEST:
@@ -528,22 +393,6 @@ df_full.head(5)
 # make them null
 df_full['Tweet'] = df_full['Tweet'].fillna("")
 df_full['Tweet'] = df_full['Tweet'].apply(lambda x: str(x))
-
-
-# SELECT sentence, label FROM first_dataset_twitter_suicide
-# UNION
-# SELECT sentence, label FROM second_dataset_forum388;
-# select DISTINCT label from first_dataset_twitter_suicide
-# SELECT sentence as Tweet, label as Suicide FROM first_dataset_twitter_suicide UNION SELECT sentence as Tweet, label as Suicide FROM second_dataset_forum388
-
-# update first_dataset_twitter_suicide SET label = 'Suicide or Self Harm Method' WHERE label = 'Suicide or Self harm method Post';
-# update first_dataset_twitter_suicide SET label = 'No Suicide Post' WHERE label = 'Not Suicide post';
-# update first_dataset_twitter_suicide SET label = 'Suicide or Self harm method Post' WHERE label = 'Suicide or Self Harm Method';
-# update second_dataset_forum388 SET label = 'Suicide or Self Harm Method' WHERE label = 'Suicide or Self harm method Post';
-# update second_dataset_forum388 SET label = 'No Suicide Post' WHERE label = 'Not Suicide post';
-# update second_dataset_forum388 SET label = 'Suicide or Self harm method Post' WHERE label = 'Suicide or Self Harm Method';
-
-
 
 
 # **Applying N-gram**
@@ -689,9 +538,7 @@ if machine_learning:
 
             print("Cross-validated scores:", scores)
 
-        # Assuming you have y_test, y_pred1, and y_pred_proba available
-        #y_pred_proba=lr.predict_proba(x_test_tfidf)
-        #metrics = calculate_metrics(y_test, y_pred1, y_pred_proba, classes=lr.classes_)
+        
 
         # Initialize the label encoder and fit on the actual classes
         label_encoder = LabelEncoder()
@@ -806,23 +653,13 @@ if machine_learning:
         print(classification_report(y_test, y_pred4))
 
         if SKIP_EXPENSIVE_CV:
-
-
             scores = []
-
-
             print('[SKIPPED] cross_val_score skipped because MHFS_SKIP_EXPENSIVE_CV=1')
 
 
         else:
-
-
             scores = cross_val_score(rfc, x_train_tfidf, y_train_full, cv=5)
-
-
             print(accuracy_score(y_test, y_pred4))
-
-
             print("Cross-validated scores:", scores)
 
         # Assuming you have y_test, y_pred1, and y_pred_proba available
@@ -882,14 +719,8 @@ if machine_learning:
 
 
         else:
-
-
             scores = cross_val_score(gbc, x_train_tfidf, y_train_full, cv=5)
-
-
             print(accuracy_score(y_test, y_pred5))
-
-
             print("Cross-validated scores:", scores)
 
         # Assuming you have y_test, y_pred1, and y_pred_proba available
@@ -948,13 +779,6 @@ if machine_learning:
             ('Logistic Regression', lr), 
             ('Support Vector Machine', svc)], 
             voting='soft', weights=[1, 2, 3, 4], n_jobs=-1)
-
-    # ensemble_model = VotingClassifier(estimators=[
-    #         ('lr', LogisticRegression(max_iter=1000, n_jobs=-1)),
-    #         ('nb', MultinomialNB()),
-    #         ('rf', RandomForestClassifier(n_estimators=100, n_jobs=-1, max_depth=10)),
-    #     ], voting='soft', n_jobs=-1)
-   
     
     ec.fit(x_train_tfidf, y_train_full)
     y_pred6 = ec.predict(x_test_tfidf)
@@ -981,10 +805,7 @@ if machine_learning:
 
         print("Cross-validated scores:", scores)
 
-    # Assuming you have y_test, y_pred1, and y_pred_proba available
-    #y_pred_proba = lr.predict_proba(x_test_tfidf)
-    #metrics = calculate_metrics(y_test, y_pred6, y_pred_proba, classes=lr.classes_)
-
+  
     # Initialize the label encoder and fit on the actual classes
     label_encoder = LabelEncoder()
     label_encoder.fit(y_test)
@@ -1031,23 +852,11 @@ if machine_learning:
     print(classification_report(y_test, y_pred7))
 
     if SKIP_EXPENSIVE_CV:
-
-
         scores = []
-
-
         print('[SKIPPED] cross_val_score skipped because MHFS_SKIP_EXPENSIVE_CV=1')
-
-
     else:
-
-
         scores = cross_val_score(abc, x_train_tfidf, y_train_full, cv=5)
-
-
         print(accuracy_score(y_test, y_pred7))
-
-
         print("Cross-validated scores:", scores)
 
     # Assuming you have y_test, y_pred1, and y_pred_proba available
@@ -1149,21 +958,13 @@ with open(str(MODELS_DIR / 'tokenizer.pickle'), 'wb') as handle:
 df_full.loc[df_full['Suicide'] == 'Not Suicide post', 'LABEL'] = 0       # Potential Suicide post
 df_full.loc[df_full['Suicide'] == 'Method or action of Suicide, Self-Harm or Harming others', 'LABEL'] = 1
 df_full.loc[df_full['Suicide'] == 'Suicide or Self Harm Ideation', 'LABEL'] = 2
-#df_full.loc[df_full['Suicide'] == 'Self-harm Ideation', 'LABEL'] = 3  
-#df_full.loc[df_full['Suicide'] == 'Self-harm', 'LABEL'] = 4  
-#df_full.loc[df_full['Suicide'] == 'Harming Others', 'LABEL'] = 5  
-# df_full.loc[df_full['Suicide'] == 'Depression', 'LABEL'] = 3  
-# df_full.loc[df_full['Suicide'] == 'Advice', 'LABEL'] = 4
+
 
 # Assign labels to df_actual as well, using the same logic as df_full
 df_actual.loc[df_actual['Suicide'] == 'Not Suicide post', 'LABEL'] = 0
 df_actual.loc[df_actual['Suicide'] == 'Method or action of Suicide, Self-Harm or Harming others', 'LABEL'] = 1
 df_actual.loc[df_actual['Suicide'] == 'Suicide or Self Harm Ideation', 'LABEL'] = 2
-#df_actual.loc[df_actual['Suicide'] == 'Self-harm Ideation', 'LABEL'] = 3  
-#df_actual.loc[df_actual['Suicide'] == 'Self-harm', 'LABEL'] = 4  
-#df_actual.loc[df_actual['Suicide'] == 'Harming Others', 'LABEL'] = 5  
-# df_actual.loc[df_actual['Suicide'] == 'Depression', 'LABEL'] = 3  
-# df_actual.loc[df_actual['Suicide'] == 'Advice', 'LABEL'] = 4
+
 
 # Ensure the 'LABEL' column exists in both DataFrames
 print("df_full LABEL column:", 'LABEL' in df_full.columns)
@@ -1183,16 +984,6 @@ print("Train, Validation Shapes:", XX_train.shape, y_train.shape, XX_val.shape, 
 # Use only actual sentences for final testing
 print("Test Shapes:", X_DeepLearning_test.shape, labels_test.shape)
 
-
- 
-# Advice
-# Depression
-# Harming Others
-# Not Suicide post
-# Self-harm
-# Self-harm Ideation
-# Suicide Ideation post
-# Suicide method, Self Harm Method or Method to harm others
 
 
 # **LSTM 1-Layer**
@@ -1275,16 +1066,6 @@ elif predicted_class == 1:
     print("Method or action of Suicide, Self-Harm or Harming others")
 elif predicted_class == 2:
     print("Suicide or Self Harm Ideation")
-#elif predicted_class == 3:
-#    print("Self-harm Ideation")
-#elif predicted_class == 4:
-#    print("Self-harm")
-#elif predicted_class == 5:
-#    print("Harming Others")
-# elif predicted_class == 3:
-#     print("Depression")
-# elif predicted_class == 4:
-#     print("Advice")
 
 
 #To call the calculate_metrics function after training and evaluating the LSTM model, follow these steps:
@@ -1338,25 +1119,6 @@ perform_misclassification_analysis(
     label_encoder=label_encoder     # Label encoder for probability-based confidence analysis
 )
 
-
-#Explanation of Each Step
-#y_pred_proba: Contains the probability predictions for each class from the model.
-#y_pred: Converts the probabilities to class labels using argmax.
-#y_test_labels: The true labels in label format, converted from one-hot encoding.
-#class_names: Class names for generating detailed metrics and confusion matrix.
-#The calculate_metrics function will now evaluate the model’s performance on the actual test data using metrics like accuracy, F1 score, precision, recall, and more. Let me know if you need further assistance!
-
-
-# df.loc[df['Suicide'] == 'Not Suicide post' , 'LABEL'] = 0       # Potential Suicide post
-# df.loc[df['Suicide'] == 'Suicide method, Self Harm Method or Method to harm others', 'LABEL'] = 1              # Not Suicide post'
-# # added a third label
-# df.loc[df['Suicide'] == 'Suicide Ideation post', 'LABEL'] = 2   # Suicide or Self Harm Method
-# #df.loc[df['Suicide'] == 'Not Suicide post', 'LABEL'] = 3   # Suicide or Self Harm Method
-# df.loc[df['Suicide'] == 'Self-harm Ideation', 'LABEL'] = 3  
-# df.loc[df['Suicide'] == 'Self-harm', 'LABEL'] = 4  
-# df.loc[df['Suicide'] == 'Harming Others', 'LABEL'] = 5  
-# df.loc[df['Suicide'] == 'Depression', 'LABEL'] = 6  
-# df.loc[df['Suicide'] == 'Advice', 'LABEL'] = 7
 
 ## **LSTM 2-Layers**
 
@@ -1425,14 +1187,7 @@ twt = ["i will not kill myself. "]
 twt = tokenizers.texts_to_sequences(twt)
 twt = pad_sequences(twt, maxlen=60, dtype='int32')
 
-# if "(1)" in first_line:
-#     label = "Suicide method, Self Harm Method or Method to harm others"
-# elif "(2)" in first_line:
-#     label = "Suicide Ideation post"        
-# elif "(3)" in first_line:
-#     label = "Not Suicide post"
-# else:
-#     label = "None"
+
 
 
 predicted = model.predict(twt,batch_size=1,verbose = True)
@@ -1449,19 +1204,7 @@ elif (np.argmax(predicted) == 1):
     print("Method or action of Suicide, Self-Harm or Harming others")
 elif (np.argmax(predicted) == 2):
     print("Suicide or Self Harm Ideation")
-# elif (np.argmax(predicted) == 3):
-#     print("Self-harm Ideation")
-# elif (np.argmax(predicted) == 4):
-#     print("Self-harm'")
-# elif (np.argmax(predicted) == 5):
-#     print("Harming Others")
-# elif (np.argmax(predicted) == 6):
-#     print("Depression")
-# elif (np.argmax(predicted) == 7):
-#     print("Advice")
 
-# elif (np.argmax(predicted) == 3):
-#     print("Not Suicide post")
 
 
 from tensorflow.keras.models import load_model
@@ -1474,13 +1217,7 @@ y_pred = y_pred_proba.argmax(axis=1)  # Convert probabilities to class labels
 # Convert one-hot encoded labels_test back to single labels for compatibility with metrics
 y_test_labels = labels_test.argmax(axis=1)
 
-# Define class names (matching the order in your 'LABEL' column)
-# class_names = ['Not Suicide post', 'Suicide method, Self Harm Method or Method to harm others',
-#                'Suicide Ideation post', 'Self-harm Ideation', 'Self-harm', 'Harming Others', 
-#                'Depression', 'Advice']
 
-# class_names = ['Not Ideation or method or action', 'Method or action of Suicide, Self-Harm or Harming others',
-#                'Suicide or Self-harm Ideation', 'Depression', 'Advice']
 
 class_names = ['Not Suicide post', 'Method or action of Suicide, Self-Harm or Harming others',
                'Suicide or Self Harm Ideation'] #, 'Depression', 'Advice']
@@ -1594,13 +1331,6 @@ y_pred = y_pred_proba.argmax(axis=1)  # Convert probabilities to class labels
 # Convert one-hot encoded labels_test back to single labels for compatibility with metrics
 y_test_labels = labels_test.argmax(axis=1)
 
-# Define class names (matching the order in your 'LABEL' column)
-# class_names = ['Not Suicide post', 'Suicide method, Self Harm Method or Method to harm others',
-#                'Suicide Ideation post', 'Self-harm Ideation', 'Self-harm', 'Harming Others', 
-#                'Depression', 'Advice']
-
-# class_names = ['Not Ideation or method or action', 'Method or action of Suicide, Self-Harm or Harming others',
-#                'Suicide or Self-harm Ideation', 'Depression', 'Advice']
 
 class_names = ['Not Suicide post', 'Method or action of Suicide, Self-Harm or Harming others',
                'Suicide or Self Harm Ideation'] 
@@ -1712,12 +1442,7 @@ twt = tokenizer.texts_to_sequences(twt)  # Using 'tokenizer' consistently
 twt = pad_sequences(twt, maxlen=60, dtype='int32')
 
 predicted = model.predict(twt,batch_size=1,verbose = True)
-# if(np.argmax(predicted) == 0):
-#     print("Not Suicide post")
-# if (np.argmax(predicted) == 1):
-#     print("Suicide method, Self Harm Method or Method to harm others")
-# elif (np.argmax(predicted) == 2):
-#     print("Suicide Ideation post")
+
 
 if (np.argmax(predicted) == 0):
     print("Not Suicide post")
@@ -1725,19 +1450,7 @@ elif (np.argmax(predicted) == 1):
     print("Suicide method, Self Harm Method or Method to harm others")
 elif (np.argmax(predicted) == 2):
     print("Suicide or Self Harm Ideation")
-# elif (np.argmax(predicted) == 3):
-#     print("Self-harm Ideation")
-# elif (np.argmax(predicted) == 4):
-#     print("Self-harm'")
-# elif (np.argmax(predicted) == 5):
-#     print("Harming Others")
-# elif (np.argmax(predicted) == 6):
-#     print("Depression")
-# elif (np.argmax(predicted) == 7):
-#     print("Advice")
 
-# elif (np.argmax(predicted) == 3):
-#     print("Not Suicide post")
 
 # Make predictions on the test data
 y_pred_proba = model_cl.predict(X_DeepLearning_test)  # Probability predictions for each class
@@ -1746,13 +1459,7 @@ y_pred = y_pred_proba.argmax(axis=1)  # Convert probabilities to class labels
 # Convert one-hot encoded labels_test back to single labels for compatibility with metrics
 y_test_labels = labels_test.argmax(axis=1)
 
-# Define class names (matching the order in your 'LABEL' column)
-# class_names = ['Not Suicide post', 'Suicide method, Self Harm Method or Method to harm others',
-#                'Suicide Ideation post', 'Self-harm Ideation', 'Self-harm', 'Harming Others', 
-#                'Depression', 'Advice']
 
-#class_names = ['Not Ideation or method or action', 'Method or action of Suicide, Self-Harm or Harming others',
-#               'Suicide or Self-harm Ideation', 'Depression', 'Advice']
 
 class_names = ['Not Suicide post', 'Method or action of Suicide, Self-Harm or Harming others',
                'Suicide or Self Harm Ideation'] 
@@ -1900,14 +1607,6 @@ print("LSTM with Attention Classification Report:\n", classification_report(y_te
 y_pred_proba = model.predict(X_test)  # Probability predictions for each class
 y_pred = y_pred_proba.argmax(axis=1)  # Convert probabilities to class labels
 
-# Define class names (matching the order in your 'LABEL' column)
-# class_names = ['Not Suicide post', 'Suicide method, Self Harm Method or Method to harm others',
-#                'Suicide Ideation post', 'Self-harm Ideation', 'Self-harm', 'Harming Others', 
-#                'Depression', 'Advice']
-
-#class_names = ['Not Ideation or method or action', 'Method or action of Suicide, Self-Harm or Harming others',
-#               'Suicide or Self-harm Ideation', 'Depression', 'Advice']
-
 
 class_names = ['Not Suicide post', 'Method or action of Suicide, Self-Harm or Harming others',
                'Suicide or Self Harm Ideation'] 
@@ -1982,14 +1681,6 @@ import joblib
 y_pred_proba = stacking_model.predict_proba(X_test)  # Probability predictions for each class
 y_pred = y_pred_proba.argmax(axis=1)  # Convert probabilities to class labels
 
-# Define class names (matching the order in your 'LABEL' column)
-# class_names = ['Not Suicide post', 'Suicide method, Self Harm Method or Method to harm others',
-#                'Suicide Ideation post', 'Self-harm Ideation', 'Self-harm', 'Harming Others', 
-#                'Depression', 'Advice']
-
-#class_names = ['Not Ideation or method or action', 'Method or action of Suicide, Self-Harm or Harming others',
-#               'Suicide or Self-harm Ideation', 'Depression', 'Advice']
-
 
 class_names = ['Not Suicide post', 'Method or action of Suicide, Self-Harm or Harming others',
                'Suicide or Self Harm Ideation'] 
@@ -2006,9 +1697,7 @@ y_test_encoded = label_encoder.transform(y_test)
 y_pred1_encoded = label_encoder.transform(y_pred)
 
 # Calculate additional metrics and generate probability predictions for confidence analysis
-# y_pred_proba already computed from the current model above
-#metrics = calculate_metrics(y_test, y_pred1, y_pred_proba=y_pred_proba, classes=lr.classes_)
-# Call calculate_metrics with encoded labels
+
 metrics = calculate_metrics(y_test_encoded, y_pred1_encoded, y_pred_proba=y_pred_proba, classes=label_encoder.classes_)
 
 # Perform comprehensive misclassification analysis
@@ -2035,14 +1724,6 @@ X_train = X_train.tolist()
 X_test = X_test.tolist()
 y_train = y_train.tolist()
 y_test = y_test.tolist()
-
-print('\n############ HERE ##### ')
-
-#  'Advice'
-# class_names = ['Not Suicide post', 'Suicide method, Self Harm Method or Method to harm others', 'Suicide Ideation post', 'Self-harm Ideation', 'Self-harm', 'Harming Others', 'Depression', 'Advice'] # 'Advice'
-
-#class_names = ['Not Ideation or method or action', 'Method or action of Suicide, Self-Harm or Harming others',
-#               'Suicide or Self-harm Ideation', 'Depression', 'Advice']
 
 
 class_names = ['Not Suicide post', 'Method or action of Suicide, Self-Harm or Harming others',
@@ -2213,14 +1894,6 @@ y_pred = y_pred_proba.argmax(axis=1)  # Convert logits to class labels
 import numpy as np
 y_pred_proba = np.exp(y_pred_proba) / np.sum(np.exp(y_pred_proba), axis=1, keepdims=True)
 
-# Define class names (matching the order in your 'LABEL' column)
-# class_names = ['Not Suicide post', 'Suicide method, Self Harm Method or Method to harm others',
-#                'Suicide Ideation post', 'Self-harm Ideation', 'Self-harm', 'Harming Others', 
-#                'Depression', 'Advice']
-
-#class_names = ['Not Ideation or method or action', 'Method or action of Suicide, Self-Harm or Harming others',
-#               'Suicide or Self-harm Ideation', 'Depression', 'Advice']
-
 
 class_names = ['Not Suicide post', 'Method or action of Suicide, Self-Harm or Harming others',
                'Suicide or Self Harm Ideation'] 
@@ -2298,15 +1971,6 @@ y_pred = y_pred_proba.argmax(axis=1)  # Convert logits to class labels
 
 # Convert logits to probability predictions using softmax
 y_pred_proba = np.exp(y_pred_proba) / np.sum(np.exp(y_pred_proba), axis=1, keepdims=True)
-
-# Define class names (matching the order in your 'LABEL' column)
-# class_names = ['Not Suicide post', 'Suicide method, Self Harm Method or Method to harm others',
-#                'Suicide Ideation post', 'Self-harm Ideation', 'Self-harm', 'Harming Others', 
-#                'Depression', 'Advice']
-
-#class_names = ['Not Ideation or method or action', 'Method or action of Suicide, Self-Harm or Harming others',
-#               'Suicide or Self-harm Ideation', 'Depression', 'Advice']
-
 
 
 class_names = ['Not Suicide post', 'Method or action of Suicide, Self-Harm or Harming others',
