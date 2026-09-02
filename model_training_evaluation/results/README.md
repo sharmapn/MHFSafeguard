@@ -7,6 +7,7 @@ This directory contains **publication-safe aggregate outputs** from the final MH
 ```text
 FULL_TEST_RESULTS.md
 all_models_full_test_957154.csv
+latest_10_8_26_out.txt
 transformer_full_eval_957154.txt
 transformer_model_comparison_full_957154.csv
 ```
@@ -19,9 +20,15 @@ Human-readable summary of the final traditional ML, neural DL and transformer re
 
 Machine-readable comparison of **all 15 final models** on the same 957,154-sentence test set, including accuracy, macro F1 and class-wise precision/recall/F1.
 
+### `latest_10_8_26_out.txt`
+
+Original complete console output from the full traditional machine-learning and PyTorch neural deep-learning run. It records Logistic Regression, Linear SVM, Naive Bayes, Random Forest, Gradient Boosting, LSTM, GRU, CNN-LSTM, hybrid CNN-LSTM-GRU and LSTM-Attention results on the complete **957,154-sentence actual-only held-out test set**.
+
+This historical run was produced with `training10_py314.py`. Transformer attempts appearing at the end of that historical console run are **not** the source of the final transformer results; the later v12 full transformer evaluation below is authoritative for BERT/RoBERTa-family results.
+
 ### `transformer_full_eval_957154.txt`
 
-Completed evaluation-only console run of BERT, RoBERTa, MentalRoBERTa and ModernBERT on the complete held-out test set.
+Completed v12 evaluation-only console run of BERT, RoBERTa, MentalRoBERTa and ModernBERT on the complete held-out test set.
 
 ### `transformer_model_comparison_full_957154.csv`
 
@@ -44,7 +51,7 @@ Generated and paraphrased examples are used only for training support and are ex
 
 Several development logs were produced while configuring the transformer pipeline. These include smoke tests, DeBERTa/tokenizer setup attempts and the earlier **100,000-sentence transformer test run**. They are useful development provenance but are **not the final paper evaluation**.
 
-The publication-facing results are the complete **957,154-sentence held-out evaluations** recorded in the files above. In particular, the transformer results in `transformer_full_eval_957154.txt` supersede the earlier 100,000-row transformer metrics.
+The publication-facing results are the complete **957,154-sentence held-out evaluations** recorded here. Use `latest_10_8_26_out.txt` for the original traditional ML/neural-DL console run and `transformer_full_eval_957154.txt` for the final transformer evaluation. The latter supersedes the earlier 100,000-row transformer metrics.
 
 ## Overall summary
 
