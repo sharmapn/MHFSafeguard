@@ -1,0 +1,848 @@
+PS C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\machine_learning> python training10_py314.py
+
+[PYTHON 3.14 CONFIGURATION]
+Python     : 3.14.3
+PyTorch   : 2.13.0+cpu
+Device    : cpu
+BASE_DIR  : C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection
+DB_PATH   : C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\databases\dec-24\all_datasets_relabelled.db
+DL enabled: 1
+Transformers enabled: 1
+
+Label Counts Across All Tables:
+                                                   label   count
+                                        Not Suicide post 3323728
+Method or action of Suicide, Self-Harm or Harming others 1318956
+        Ideation of Suicide, Self-Harm or Harming Others  548842
+
+[INFO] Updated df_full rows after adding 387, 389, SuicideForum, and SanctionedSuicide: 4898023
+Suicide
+Not Suicide post                                            3096839
+Method or action of Suicide, Self-Harm or Harming others    1287175
+Ideation of Suicide, Self-Harm or Harming Others             514009
+
+[INFO] Building actual-only dataset for final held-out testing.
+
+[INFO] Actual-only rows before train/test split: 3828613
+Suicide
+Not Suicide post                                            3021630
+Ideation of Suicide, Self-Harm or Harming Others             414038
+Method or action of Suicide, Self-Harm or Harming others     392945
+
+[INFO] Actual training rows: 2871459
+Suicide
+Not Suicide post                                            2266222
+Ideation of Suicide, Self-Harm or Harming Others             310528
+Method or action of Suicide, Self-Harm or Harming others     294709
+
+[INFO] Held-out actual-only df_actual test rows: 957154
+Suicide
+Not Suicide post                                            755408
+Ideation of Suicide, Self-Harm or Harming Others            103510
+Method or action of Suicide, Self-Harm or Harming others     98236
+
+[INFO] Augmented rows for training only: 1069489
+Suicide
+Method or action of Suicide, Self-Harm or Harming others    894267
+Ideation of Suicide, Self-Harm or Harming Others            100000
+Not Suicide post                                             75222
+
+[INFO] Final df_full training rows after held-out split: 3940894
+Suicide
+Not Suicide post                                            2341433
+Method or action of Suicide, Self-Harm or Harming others    1188953
+Ideation of Suicide, Self-Harm or Harming Others             410508
+**Applying N-gram**
+Fitted CountVectorizer saved as C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\models\count_vectorizer_ngram_1_3_negation_aware.joblib
+Fitted TfidfTransformer saved as C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\models\tfidf_transformer_l2_sublinear.joblib
+(3940894, 23847350) (957154, 23847350) (3940894,) (957154,)
+x_train_tfidf shape: (3940894, 23847350)
+y_train_full shape: (3940894,)
+x_test_tfidf shape: (957154, 23847350)
+y_test shape: (957154,)
+
+
+**Logistic Regression**
+Accuracy: 0.9306140913583394
+                                                          precision    recall  f1-score   support
+
+        Ideation of Suicide, Self-Harm or Harming Others       0.82      0.73      0.77    103510
+Method or action of Suicide, Self-Harm or Harming others       0.84      0.92      0.88     98236
+                                        Not Suicide post       0.96      0.96      0.96    755408
+
+                                                accuracy                           0.93    957154
+                                               macro avg       0.87      0.87      0.87    957154
+                                            weighted avg       0.93      0.93      0.93    957154
+
+[SKIPPED] pipeline cross-validation skipped because MHFS_SKIP_EXPENSIVE_CV=1
+
+
+
+--- Model Metrics ---
+model: model
+accuracy: 0.9306140913583394
+f1_weighted: 0.9299274068594615
+f1_macro: 0.8687019599139135
+precision_weighted: 0.9302451137446105
+recall_weighted: 0.9306140913583394
+cohen_kappa: 0.8039558649317459
+mcc: 0.8042507069093342
+f2_score: 0.9302210832889886
+pr_auc: 0.9250536018846773
+roc_auc: 0.9716141935485035
+log_loss: 0.2117530133126247
+
+Class-wise Precision, Recall, and F1-Score:
+                                                   Class  Precision   Recall  F1-Score  Support
+        Ideation of Suicide, Self-Harm or Harming Others   0.819809 0.728886  0.771678   103510
+Method or action of Suicide, Self-Harm or Harming others   0.835177 0.920518  0.875774    98236
+                                        Not Suicide post   0.957741 0.959569  0.958654   755408
+
+Classification Report:
+                                                          precision    recall  f1-score   support
+
+        Ideation of Suicide, Self-Harm or Harming Others       0.82      0.73      0.77    103510
+Method or action of Suicide, Self-Harm or Harming others       0.84      0.92      0.88     98236
+                                        Not Suicide post       0.96      0.96      0.96    755408
+
+                                                accuracy                           0.93    957154
+                                               macro avg       0.87      0.87      0.87    957154
+                                            weighted avg       0.93      0.93      0.93    957154
+
+
+
+Model saved as C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\models\logistic_regression_model.joblib
+
+
+Starting misclassification analysis for Logistic_Regression...
+Incorrectly classified rows saved to 'incorrectly_classified_rows_Logistic_Regression.csv'
+Class-wise misclassification counts saved to 'class_wise_misclassifications_Logistic_Regression.csv'
+[WARN] Project misclassification helper failed: maximum recursion depth exceeded
+[INFO] Misclassification rows saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\outputs_py314\misclassification\Logistic_Regression_misclassifications.csv
+
+
+**Support Vector Machine**
+
+
+Accuracy: 0.9364470085273634
+                                                          precision    recall  f1-score   support
+
+        Ideation of Suicide, Self-Harm or Harming Others       0.83      0.74      0.78    103510
+Method or action of Suicide, Self-Harm or Harming others       0.86      0.94      0.90     98236
+                                        Not Suicide post       0.96      0.96      0.96    755408
+
+                                                accuracy                           0.94    957154
+                                               macro avg       0.88      0.88      0.88    957154
+                                            weighted avg       0.94      0.94      0.94    957154
+
+[SKIPPED] cross_val_score skipped because MHFS_SKIP_EXPENSIVE_CV=1
+
+
+
+--- Model Metrics ---
+model: model
+accuracy: 0.9364470085273634
+f1_weighted: 0.9356835090533508
+f1_macro: 0.8798401396360903
+precision_weighted: 0.9358239112017516
+recall_weighted: 0.9364470085273634
+cohen_kappa: 0.8200840740132208
+mcc: 0.8203608794096993
+f2_score: 0.9360361949236976
+pr_auc: None
+roc_auc: None
+log_loss: None
+probability_metric_note: Not calculated because probability scores are unavailable or incompatible.
+
+Class-wise Precision, Recall, and F1-Score:
+                                                   Class  Precision   Recall  F1-Score  Support
+        Ideation of Suicide, Self-Harm or Harming Others   0.828296 0.738344  0.780737   103510
+Method or action of Suicide, Self-Harm or Harming others   0.859813 0.937141  0.896813    98236
+                                        Not Suicide post   0.960443 0.963502  0.961970   755408
+
+Classification Report:
+                                                          precision    recall  f1-score   support
+
+        Ideation of Suicide, Self-Harm or Harming Others       0.83      0.74      0.78    103510
+Method or action of Suicide, Self-Harm or Harming others       0.86      0.94      0.90     98236
+                                        Not Suicide post       0.96      0.96      0.96    755408
+
+                                                accuracy                           0.94    957154
+                                               macro avg       0.88      0.88      0.88    957154
+                                            weighted avg       0.94      0.94      0.94    957154
+
+
+
+Model saved as  models/Suicide_SVM.pkl
+
+
+Complete SVM prediction pipeline saved as C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\models\Suicide_SVM_pipeline.joblib
+SVM bundle with vectorizer and transformer saved as C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\models\Suicide_SVM_with_vectorizer_bundle.joblib
+SVM pipeline sanity-check predictions:
+  TEXT: I need help and I feel unsafe
+  PRED: Not Suicide post
+  TEXT: This is a general discussion post
+  PRED: Not Suicide post
+
+
+Starting misclassification analysis for Support_Vector_Machine...
+Incorrectly classified rows saved to 'incorrectly_classified_rows_Support_Vector_Machine.csv'
+Class-wise misclassification counts saved to 'class_wise_misclassifications_Support_Vector_Machine.csv'
+[WARN] Project misclassification helper failed: maximum recursion depth exceeded
+[INFO] Misclassification rows saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\outputs_py314\misclassification\Support_Vector_Machine_misclassifications.csv
+**Naive Bayes (Multinomial)**
+Accuracy: 0.8443416628881036
+                                                          precision    recall  f1-score   support
+
+        Ideation of Suicide, Self-Harm or Harming Others       0.98      0.05      0.10    103510
+Method or action of Suicide, Self-Harm or Harming others       0.81      0.56      0.66     98236
+                                        Not Suicide post       0.85      0.99      0.91    755408
+
+                                                accuracy                           0.84    957154
+                                               macro avg       0.88      0.53      0.56    957154
+                                            weighted avg       0.86      0.84      0.80    957154
+
+[SKIPPED] pipeline cross-validation skipped because MHFS_SKIP_EXPENSIVE_CV=1
+
+
+
+--- Model Metrics ---
+model: model
+accuracy: 0.8443416628881036
+f1_weighted: 0.7988248160478637
+f1_macro: 0.5579346458628208
+precision_weighted: 0.8568015464044402
+recall_weighted: 0.8443416628881036
+cohen_kappa: 0.4096548858102981
+mcc: 0.4792729708227354
+f2_score: 0.8238155972012138
+pr_auc: 0.7315428924205906
+roc_auc: 0.8276864862343747
+log_loss: 0.6485862103514294
+
+Class-wise Precision, Recall, and F1-Score:
+                                                   Class  Precision   Recall  F1-Score  Support
+        Ideation of Suicide, Self-Harm or Harming Others   0.980191 0.052584  0.099814   103510
+Method or action of Suicide, Self-Harm or Harming others   0.806970 0.560507  0.661529    98236
+                                        Not Suicide post   0.846374 0.989743  0.912461   755408
+
+Classification Report:
+                                                          precision    recall  f1-score   support
+
+        Ideation of Suicide, Self-Harm or Harming Others       0.98      0.05      0.10    103510
+Method or action of Suicide, Self-Harm or Harming others       0.81      0.56      0.66     98236
+                                        Not Suicide post       0.85      0.99      0.91    755408
+
+                                                accuracy                           0.84    957154
+                                               macro avg       0.88      0.53      0.56    957154
+                                            weighted avg       0.86      0.84      0.80    957154
+
+
+
+Model saved as C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\models\naive_bayes_model.joblib
+
+
+Starting misclassification analysis for Naive_Bayes...
+Incorrectly classified rows saved to 'incorrectly_classified_rows_Naive_Bayes.csv'
+Class-wise misclassification counts saved to 'class_wise_misclassifications_Naive_Bayes.csv'
+[WARN] Project misclassification helper failed: maximum recursion depth exceeded
+[INFO] Misclassification rows saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\outputs_py314\misclassification\Naive_Bayes_misclassifications.csv
+
+
+**Random Forest**
+Accuracy: 0.8194021024829861
+                                                          precision    recall  f1-score   support
+
+        Ideation of Suicide, Self-Harm or Harming Others       0.53      0.65      0.58    103510
+Method or action of Suicide, Self-Harm or Harming others       0.57      0.42      0.48     98236
+                                        Not Suicide post       0.89      0.89      0.89    755408
+
+                                                accuracy                           0.82    957154
+                                               macro avg       0.66      0.66      0.65    957154
+                                            weighted avg       0.82      0.82      0.82    957154
+
+[SKIPPED] cross_val_score skipped because MHFS_SKIP_EXPENSIVE_CV=1
+
+
+
+--- Model Metrics ---
+model: model
+accuracy: 0.8194021024829861
+f1_weighted: 0.8180410138659204
+f1_macro: 0.653585646241272
+precision_weighted: 0.820461482609871
+recall_weighted: 0.8194021024829861
+cohen_kappa: 0.4907127015055316
+mcc: 0.4916931318841731
+f2_score: 0.8184294893448857
+pr_auc: 0.6713195092714909
+roc_auc: 0.8481085874585744
+log_loss: 1.0837902244067543
+
+Class-wise Precision, Recall, and F1-Score:
+                                                   Class  Precision   Recall  F1-Score  Support
+        Ideation of Suicide, Self-Harm or Harming Others   0.526025 0.654729  0.583363   103510
+Method or action of Suicide, Self-Harm or Harming others   0.568629 0.420874  0.483720    98236
+                                        Not Suicide post   0.893556 0.893792  0.893674   755408
+
+Classification Report:
+                                                          precision    recall  f1-score   support
+
+        Ideation of Suicide, Self-Harm or Harming Others       0.53      0.65      0.58    103510
+Method or action of Suicide, Self-Harm or Harming others       0.57      0.42      0.48     98236
+                                        Not Suicide post       0.89      0.89      0.89    755408
+
+                                                accuracy                           0.82    957154
+                                               macro avg       0.66      0.66      0.65    957154
+                                            weighted avg       0.82      0.82      0.82    957154
+
+
+
+Model saved as C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\models\random_forest_model.joblib
+
+
+Starting misclassification analysis for Random_Forest...
+Incorrectly classified rows saved to 'incorrectly_classified_rows_Random_Forest.csv'
+Class-wise misclassification counts saved to 'class_wise_misclassifications_Random_Forest.csv'
+[WARN] Project misclassification helper failed: maximum recursion depth exceeded
+[INFO] Misclassification rows saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\outputs_py314\misclassification\Random_Forest_misclassifications.csv
+**Gradient Boosting Classifier**
+      Iter       Train Loss   Remaining Time 
+         1           0.9062          132.18m
+         2           0.9054          105.94m
+         3           0.9050           97.08m
+         4           0.9041           93.07m
+         5           0.9038           90.59m
+         6           0.9033           89.52m
+         7           0.9019           88.13m
+         8           0.9016           87.07m
+         9           0.9009           86.78m
+        10           0.9003           86.25m
+        20           0.8911           82.96m
+        30           0.8863           81.45m
+        40           0.8818           80.41m
+        50           0.8772           79.38m
+        60           0.8680           78.65m
+        70           0.8644           77.69m
+        80           0.8594           76.99m
+        90           0.8546           76.01m
+       100           0.8486           75.14m
+       200           0.8027           67.48m
+       300           0.7645           59.91m
+       400           0.7309           51.28m
+       500           0.7000           42.73m
+       600           0.6660           34.09m
+       700           0.6416           25.56m
+       800           0.6200           17.05m
+       900           0.6015            8.53m
+      1000           0.5852            0.00s
+Accuracy: 0.8227160937529384
+                                                          precision    recall  f1-score   support
+
+        Ideation of Suicide, Self-Harm or Harming Others       0.92      0.08      0.15    103510
+Method or action of Suicide, Self-Harm or Harming others       0.86      0.27      0.41     98236
+                                        Not Suicide post       0.82      1.00      0.90    755408
+
+                                                accuracy                           0.82    957154
+                                               macro avg       0.87      0.45      0.49    957154
+                                            weighted avg       0.83      0.82      0.77    957154
+
+[SKIPPED] cross_val_score skipped because MHFS_SKIP_EXPENSIVE_CV=1
+
+--- Model Metrics ---
+model: model
+accuracy: 0.8227160937529384
+f1_weighted: 0.76826643113213
+f1_macro: 0.4853761907890217
+precision_weighted: 0.8348561378192172
+recall_weighted: 0.8227160937529384
+cohen_kappa: 0.2589978619323722
+mcc: 0.367177837595507
+f2_score: 0.7966989946070084
+pr_auc: 0.7648035618824641
+roc_auc: 0.8898156221872813
+log_loss: 0.557669570137554
+
+Class-wise Precision, Recall, and F1-Score:
+                                                   Class  Precision   Recall  F1-Score  Support
+        Ideation of Suicide, Self-Harm or Harming Others   0.917973 0.080871  0.148647   103510
+Method or action of Suicide, Self-Harm or Harming others   0.856621 0.267234  0.407380    98236
+                                        Not Suicide post   0.820637 0.996604  0.900101   755408
+
+Classification Report:
+                                                          precision    recall  f1-score   support
+
+        Ideation of Suicide, Self-Harm or Harming Others       0.92      0.08      0.15    103510
+Method or action of Suicide, Self-Harm or Harming others       0.86      0.27      0.41     98236
+                                        Not Suicide post       0.82      1.00      0.90    755408
+
+                                                accuracy                           0.82    957154
+                                               macro avg       0.87      0.45      0.49    957154
+                                            weighted avg       0.83      0.82      0.77    957154
+
+Model saved as C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\models\gradient_boosting_model.joblib
+Starting misclassification analysis for Gradient_Boosting_Classifier...
+Incorrectly classified rows saved to 'incorrectly_classified_rows_Gradient_Boosting_Classifier.csv'
+Class-wise misclassification counts saved to 'class_wise_misclassifications_Gradient_Boosting_Classifier.csv'
+[WARN] Project misclassification helper failed: maximum recursion depth exceeded
+[INFO] Misclassification rows saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\outputs_py314\misclassification\Gradient_Boosting_Classifier_misclassifications.csv
+[SKIPPED] Ensemble Classifier skipped. Set MHFS_RUN_ENSEMBLE=1 to run it.
+[SKIPPED] AdaBoost with Random Forest skipped. Set MHFS_RUN_ADABOOST=1 to run it.
+**Comparison Between ML Models**
+Comparison using uni-bi-trigram features (1,3)
+           Logistic Regression        SVM  Naive Bayes  Random Forest  GradientBoosting
+Accuracy             93.061409  93.644701    84.434166      81.940210         82.271609
+F1_score             86.870196  87.984014    55.793465      65.358565         48.537619
+Recall               93.061409  93.644701    84.434166      81.940210         82.271609
+Precision            93.061409  93.644701    84.434166      81.940210         82.271609
+[SKIPPED] Stacking classifier. Set MHFS_RUN_STACKING=1 to run it.
+
+==============================================================================
+PYTORCH DEEP-LEARNING MODELS
+==============================================================================
+
+------------------------------------------------------------------------------
+Training lstm_1_layer
+------------------------------------------------------------------------------
+[lstm_1_layer] epoch=1/10 train_loss=0.52698 val_macro_f1=0.88764
+[lstm_1_layer] epoch=2/10 train_loss=0.19315 val_macro_f1=0.90194
+[lstm_1_layer] epoch=3/10 train_loss=0.17514 val_macro_f1=0.90418
+[lstm_1_layer] epoch=4/10 train_loss=0.16578 val_macro_f1=0.90632
+[lstm_1_layer] epoch=5/10 train_loss=0.15898 val_macro_f1=0.90594
+[lstm_1_layer] epoch=6/10 train_loss=0.15407 val_macro_f1=0.90751
+[lstm_1_layer] epoch=7/10 train_loss=0.14978 val_macro_f1=0.90680
+[lstm_1_layer] epoch=8/10 train_loss=0.14675 val_macro_f1=0.90689
+[lstm_1_layer] epoch=9/10 train_loss=0.14426 val_macro_f1=0.90761
+[lstm_1_layer] epoch=10/10 train_loss=0.14221 val_macro_f1=0.90631
+[lstm_1_layer] Best checkpoint saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\models\lstm_1_layer.pt
+
+[lstm_1_layer] Held-out actual-only classification report:
+                                                          precision    recall  f1-score   support
+
+                                        Not Suicide post       0.96      0.96      0.96    755408
+Method or action of Suicide, Self-Harm or Harming others       0.87      0.91      0.89     98236
+        Ideation of Suicide, Self-Harm or Harming Others       0.82      0.74      0.78    103510
+
+                                                accuracy                           0.93    957154
+                                               macro avg       0.88      0.87      0.88    957154
+                                            weighted avg       0.93      0.93      0.93    957154
+
+
+--- Model Metrics ---
+model: model
+accuracy: 0.9346228506593506
+f1_weighted: 0.9339406847993366
+f1_macro: 0.8763527329988733
+precision_weighted: 0.9337555471239155
+recall_weighted: 0.9346228506593506
+cohen_kappa: 0.8143123404841549
+mcc: 0.8145009253142681
+f2_score: 0.9342928961511923
+pr_auc: 0.9334723864808049
+roc_auc: 0.9745938958456443
+log_loss: 0.18265840411186218
+
+Class-wise Precision, Recall, and F1-Score:
+                                                   Class  Precision   Recall  F1-Score  Support
+                                        Not Suicide post   0.958481 0.963557  0.961012   755408
+Method or action of Suicide, Self-Harm or Harming others   0.867076 0.912965  0.889429    98236
+        Ideation of Suicide, Self-Harm or Harming Others   0.816594 0.744015  0.778617   103510
+
+Classification Report:
+                                                          precision    recall  f1-score   support
+
+                                        Not Suicide post       0.96      0.96      0.96    755408
+Method or action of Suicide, Self-Harm or Harming others       0.87      0.91      0.89     98236
+        Ideation of Suicide, Self-Harm or Harming Others       0.82      0.74      0.78    103510
+
+                                                accuracy                           0.93    957154
+                                               macro avg       0.88      0.87      0.88    957154
+                                            weighted avg       0.93      0.93      0.93    957154
+
+Starting misclassification analysis for lstm_1_layer...
+Incorrectly classified rows saved to 'incorrectly_classified_rows_lstm_1_layer.csv'
+Class-wise misclassification counts saved to 'class_wise_misclassifications_lstm_1_layer.csv'
+[WARN] Project misclassification helper failed: maximum recursion depth exceeded
+[INFO] Misclassification rows saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\outputs_py314\misclassification\lstm_1_layer_misclassifications.csv
+
+------------------------------------------------------------------------------
+Training lstm_2_layer
+------------------------------------------------------------------------------
+[lstm_2_layer] epoch=1/10 train_loss=0.27389 val_macro_f1=0.89872
+[lstm_2_layer] epoch=2/10 train_loss=0.17968 val_macro_f1=0.90679
+[lstm_2_layer] epoch=3/10 train_loss=0.16796 val_macro_f1=0.90855
+[lstm_2_layer] epoch=4/10 train_loss=0.16052 val_macro_f1=0.90702
+[lstm_2_layer] epoch=5/10 train_loss=0.15506 val_macro_f1=0.90941
+[lstm_2_layer] epoch=6/10 train_loss=0.15107 val_macro_f1=0.90911
+[lstm_2_layer] epoch=7/10 train_loss=0.14799 val_macro_f1=0.90948
+[lstm_2_layer] epoch=8/10 train_loss=0.14547 val_macro_f1=0.90835
+[lstm_2_layer] epoch=9/10 train_loss=0.14367 val_macro_f1=0.90987
+[lstm_2_layer] epoch=10/10 train_loss=0.14216 val_macro_f1=0.90886
+[lstm_2_layer] Best checkpoint saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\models\lstm_2_layer.pt
+
+[lstm_2_layer] Held-out actual-only classification report:
+                                                          precision    recall  f1-score   support
+
+                                        Not Suicide post       0.96      0.96      0.96    755408
+Method or action of Suicide, Self-Harm or Harming others       0.86      0.92      0.89     98236
+        Ideation of Suicide, Self-Harm or Harming Others       0.82      0.75      0.78    103510
+
+                                                accuracy                           0.93    957154
+                                               macro avg       0.88      0.88      0.88    957154
+                                            weighted avg       0.93      0.93      0.93    957154
+
+
+--- Model Metrics ---
+model: model
+accuracy: 0.9347921024203002
+f1_weighted: 0.9342401502468338
+f1_macro: 0.8769963654944689
+precision_weighted: 0.9341710286827727
+recall_weighted: 0.9347921024203002
+cohen_kappa: 0.8155197830900597
+mcc: 0.8156715828233961
+f2_score: 0.9345146830815532
+pr_auc: 0.9358380289802487
+roc_auc: 0.9757442025281421
+log_loss: 0.1781303435564041
+
+Class-wise Precision, Recall, and F1-Score:
+                                                   Class  Precision   Recall  F1-Score  Support
+                                        Not Suicide post   0.959835 0.962453  0.961142   755408
+Method or action of Suicide, Self-Harm or Harming others   0.862108 0.917668  0.889020    98236
+        Ideation of Suicide, Self-Harm or Harming Others   0.815272 0.749174  0.780826   103510
+
+Classification Report:
+                                                          precision    recall  f1-score   support
+
+                                        Not Suicide post       0.96      0.96      0.96    755408
+Method or action of Suicide, Self-Harm or Harming others       0.86      0.92      0.89     98236
+        Ideation of Suicide, Self-Harm or Harming Others       0.82      0.75      0.78    103510
+
+                                                accuracy                           0.93    957154
+                                               macro avg       0.88      0.88      0.88    957154
+                                            weighted avg       0.93      0.93      0.93    957154
+
+Starting misclassification analysis for lstm_2_layer...
+Incorrectly classified rows saved to 'incorrectly_classified_rows_lstm_2_layer.csv'
+Class-wise misclassification counts saved to 'class_wise_misclassifications_lstm_2_layer.csv'
+[WARN] Project misclassification helper failed: maximum recursion depth exceeded
+[INFO] Misclassification rows saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\outputs_py314\misclassification\lstm_2_layer_misclassifications.csv
+
+------------------------------------------------------------------------------
+Training gru
+------------------------------------------------------------------------------
+[gru] epoch=1/10 train_loss=0.25603 val_macro_f1=0.89930
+[gru] epoch=2/10 train_loss=0.18442 val_macro_f1=0.90268
+[gru] epoch=3/10 train_loss=0.17625 val_macro_f1=0.90322
+[gru] epoch=4/10 train_loss=0.17163 val_macro_f1=0.90461
+[gru] epoch=5/10 train_loss=0.16949 val_macro_f1=0.90274
+[gru] epoch=6/10 train_loss=0.16744 val_macro_f1=0.90394
+[gru] epoch=7/10 train_loss=0.16697 val_macro_f1=0.90376
+[gru] Early stopping.
+[gru] Best checkpoint saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\models\gru.pt
+
+[gru] Held-out actual-only classification report:
+                                                          precision    recall  f1-score   support
+
+                                        Not Suicide post       0.96      0.96      0.96    755408
+Method or action of Suicide, Self-Harm or Harming others       0.87      0.91      0.89     98236
+        Ideation of Suicide, Self-Harm or Harming Others       0.81      0.74      0.77    103510
+
+                                                accuracy                           0.93    957154
+                                               macro avg       0.88      0.87      0.87    957154
+                                            weighted avg       0.93      0.93      0.93    957154
+
+
+--- Model Metrics ---
+model: model
+accuracy: 0.9330536151967186
+f1_weighted: 0.9323569059210701
+f1_macro: 0.8737175602868734
+precision_weighted: 0.9320805953038307
+recall_weighted: 0.9330536151967186
+cohen_kappa: 0.8096499195998107
+mcc: 0.8098290563690028
+f2_score: 0.9327268375532092
+pr_auc: 0.9315607384549537
+roc_auc: 0.973653864193636
+log_loss: 0.18372215330600739
+
+Class-wise Precision, Recall, and F1-Score:
+                                                   Class  Precision   Recall  F1-Score  Support
+                                        Not Suicide post   0.957074 0.962810  0.959933   755408
+Method or action of Suicide, Self-Harm or Harming others   0.869996 0.907386  0.888298    98236
+        Ideation of Suicide, Self-Harm or Harming Others   0.808603 0.740257  0.772922   103510
+
+Classification Report:
+                                                          precision    recall  f1-score   support
+
+                                        Not Suicide post       0.96      0.96      0.96    755408
+Method or action of Suicide, Self-Harm or Harming others       0.87      0.91      0.89     98236
+        Ideation of Suicide, Self-Harm or Harming Others       0.81      0.74      0.77    103510
+
+                                                accuracy                           0.93    957154
+                                               macro avg       0.88      0.87      0.87    957154
+                                            weighted avg       0.93      0.93      0.93    957154
+
+Starting misclassification analysis for gru...
+Incorrectly classified rows saved to 'incorrectly_classified_rows_gru.csv'
+Class-wise misclassification counts saved to 'class_wise_misclassifications_gru.csv'
+[WARN] Project misclassification helper failed: maximum recursion depth exceeded
+[INFO] Misclassification rows saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\outputs_py314\misclassification\gru_misclassifications.csv
+
+------------------------------------------------------------------------------
+Training cnn_lstm
+------------------------------------------------------------------------------
+[cnn_lstm] epoch=1/10 train_loss=0.22434 val_macro_f1=0.89663
+[cnn_lstm] epoch=2/10 train_loss=0.18855 val_macro_f1=0.90319
+[cnn_lstm] epoch=3/10 train_loss=0.17794 val_macro_f1=0.90495
+[cnn_lstm] epoch=4/10 train_loss=0.17125 val_macro_f1=0.90572
+[cnn_lstm] epoch=5/10 train_loss=0.16614 val_macro_f1=0.90575
+[cnn_lstm] epoch=6/10 train_loss=0.16196 val_macro_f1=0.90571
+[cnn_lstm] epoch=7/10 train_loss=0.15910 val_macro_f1=0.90570
+[cnn_lstm] epoch=8/10 train_loss=0.15613 val_macro_f1=0.90623
+[cnn_lstm] epoch=9/10 train_loss=0.15405 val_macro_f1=0.90688
+[cnn_lstm] epoch=10/10 train_loss=0.15169 val_macro_f1=0.90427
+[cnn_lstm] Best checkpoint saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\models\cnn_lstm.pt
+
+[cnn_lstm] Held-out actual-only classification report:
+                                                          precision    recall  f1-score   support
+
+                                        Not Suicide post       0.96      0.96      0.96    755408
+Method or action of Suicide, Self-Harm or Harming others       0.86      0.91      0.89     98236
+        Ideation of Suicide, Self-Harm or Harming Others       0.82      0.74      0.78    103510
+
+                                                accuracy                           0.93    957154
+                                               macro avg       0.88      0.87      0.87    957154
+                                            weighted avg       0.93      0.93      0.93    957154
+
+
+--- Model Metrics ---
+model: model
+accuracy: 0.9334370435687465
+f1_weighted: 0.9327197201166979
+f1_macro: 0.8739402935254437
+precision_weighted: 0.9325882027576817
+recall_weighted: 0.9334370435687465
+cohen_kappa: 0.8109890644787572
+mcc: 0.811200145981852
+f2_score: 0.9330828042385669
+pr_auc: 0.9333234385959036
+roc_auc: 0.9741953877049614
+log_loss: 0.1836673766374588
+
+Class-wise Precision, Recall, and F1-Score:
+                                                   Class  Precision   Recall  F1-Score  Support
+                                        Not Suicide post   0.957880 0.962812  0.960339   755408
+Method or action of Suicide, Self-Harm or Harming others   0.860506 0.912608  0.885792    98236
+        Ideation of Suicide, Self-Harm or Harming Others   0.816423 0.738827  0.775689   103510
+
+Classification Report:
+                                                          precision    recall  f1-score   support
+
+                                        Not Suicide post       0.96      0.96      0.96    755408
+Method or action of Suicide, Self-Harm or Harming others       0.86      0.91      0.89     98236
+        Ideation of Suicide, Self-Harm or Harming Others       0.82      0.74      0.78    103510
+
+                                                accuracy                           0.93    957154
+                                               macro avg       0.88      0.87      0.87    957154
+                                            weighted avg       0.93      0.93      0.93    957154
+
+Starting misclassification analysis for cnn_lstm...
+Incorrectly classified rows saved to 'incorrectly_classified_rows_cnn_lstm.csv'
+Class-wise misclassification counts saved to 'class_wise_misclassifications_cnn_lstm.csv'
+[WARN] Project misclassification helper failed: maximum recursion depth exceeded
+[INFO] Misclassification rows saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\outputs_py314\misclassification\cnn_lstm_misclassifications.csv
+
+------------------------------------------------------------------------------
+Training hybrid_cnn_lstm_gru
+------------------------------------------------------------------------------
+[hybrid_cnn_lstm_gru] epoch=1/10 train_loss=0.22547 val_macro_f1=0.89814
+[hybrid_cnn_lstm_gru] epoch=2/10 train_loss=0.18324 val_macro_f1=0.90438
+[hybrid_cnn_lstm_gru] epoch=3/10 train_loss=0.17289 val_macro_f1=0.90512
+[hybrid_cnn_lstm_gru] epoch=4/10 train_loss=0.16636 val_macro_f1=0.90663
+[hybrid_cnn_lstm_gru] epoch=5/10 train_loss=0.16168 val_macro_f1=0.90574
+[hybrid_cnn_lstm_gru] epoch=6/10 train_loss=0.15831 val_macro_f1=0.90783
+[hybrid_cnn_lstm_gru] epoch=7/10 train_loss=0.15557 val_macro_f1=0.90865
+[hybrid_cnn_lstm_gru] epoch=8/10 train_loss=0.15312 val_macro_f1=0.90920
+[hybrid_cnn_lstm_gru] epoch=9/10 train_loss=0.15070 val_macro_f1=0.90809
+[hybrid_cnn_lstm_gru] epoch=10/10 train_loss=0.14919 val_macro_f1=0.90866
+[hybrid_cnn_lstm_gru] Best checkpoint saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\models\hybrid_cnn_lstm_gru.pt
+
+[hybrid_cnn_lstm_gru] Held-out actual-only classification report:
+                                                          precision    recall  f1-score   support
+
+                                        Not Suicide post       0.96      0.96      0.96    755408
+Method or action of Suicide, Self-Harm or Harming others       0.86      0.91      0.89     98236
+        Ideation of Suicide, Self-Harm or Harming Others       0.78      0.78      0.78    103510
+
+                                                accuracy                           0.93    957154
+                                               macro avg       0.87      0.88      0.88    957154
+                                            weighted avg       0.93      0.93      0.93    957154
+
+
+--- Model Metrics ---
+model: model
+accuracy: 0.9325949638198242
+f1_weighted: 0.9327294279128975
+f1_macro: 0.8759233620849493
+precision_weighted: 0.9330361481930853
+recall_weighted: 0.9325949638198242
+cohen_kappa: 0.811951918939087
+mcc: 0.8120645258468379
+f2_score: 0.9326272288772387
+pr_auc: 0.9339637167089282
+roc_auc: 0.9749722451817148
+log_loss: 0.18190424144268036
+
+Class-wise Precision, Recall, and F1-Score:
+                                                   Class  Precision   Recall  F1-Score  Support
+                                        Not Suicide post   0.962579 0.956287  0.959423   755408
+Method or action of Suicide, Self-Harm or Harming others   0.862552 0.913952  0.887508    98236
+        Ideation of Suicide, Self-Harm or Harming Others   0.784325 0.777384  0.780839   103510
+
+Classification Report:
+                                                          precision    recall  f1-score   support
+
+                                        Not Suicide post       0.96      0.96      0.96    755408
+Method or action of Suicide, Self-Harm or Harming others       0.86      0.91      0.89     98236
+        Ideation of Suicide, Self-Harm or Harming Others       0.78      0.78      0.78    103510
+
+                                                accuracy                           0.93    957154
+                                               macro avg       0.87      0.88      0.88    957154
+                                            weighted avg       0.93      0.93      0.93    957154
+
+Starting misclassification analysis for hybrid_cnn_lstm_gru...
+Incorrectly classified rows saved to 'incorrectly_classified_rows_hybrid_cnn_lstm_gru.csv'
+Class-wise misclassification counts saved to 'class_wise_misclassifications_hybrid_cnn_lstm_gru.csv'
+[WARN] Project misclassification helper failed: maximum recursion depth exceeded
+[INFO] Misclassification rows saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\outputs_py314\misclassification\hybrid_cnn_lstm_gru_misclassifications.csv
+
+------------------------------------------------------------------------------
+Training lstm_attention
+------------------------------------------------------------------------------
+[lstm_attention] epoch=1/10 train_loss=0.21157 val_macro_f1=0.90302
+[lstm_attention] epoch=2/10 train_loss=0.17747 val_macro_f1=0.90691
+[lstm_attention] epoch=3/10 train_loss=0.16788 val_macro_f1=0.90693
+[lstm_attention] epoch=4/10 train_loss=0.16171 val_macro_f1=0.90743
+[lstm_attention] epoch=5/10 train_loss=0.15805 val_macro_f1=0.90919
+[lstm_attention] epoch=6/10 train_loss=0.15536 val_macro_f1=0.90897
+[lstm_attention] epoch=7/10 train_loss=0.15374 val_macro_f1=0.90888
+[lstm_attention] epoch=8/10 train_loss=0.15228 val_macro_f1=0.90842
+[lstm_attention] Early stopping.
+[lstm_attention] Best checkpoint saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\models\lstm_attention.pt
+
+[lstm_attention] Held-out actual-only classification report:
+                                                          precision    recall  f1-score   support
+
+                                        Not Suicide post       0.96      0.96      0.96    755408
+Method or action of Suicide, Self-Harm or Harming others       0.86      0.92      0.89     98236
+        Ideation of Suicide, Self-Harm or Harming Others       0.81      0.76      0.78    103510
+
+                                                accuracy                           0.93    957154
+                                               macro avg       0.88      0.88      0.88    957154
+                                            weighted avg       0.93      0.93      0.93    957154
+
+
+--- Model Metrics ---
+model: model
+accuracy: 0.9343668834900131
+f1_weighted: 0.9341246274529031
+f1_macro: 0.8777949711053753
+precision_weighted: 0.9342419359851298
+recall_weighted: 0.9343668834900131
+cohen_kappa: 0.8157177102621257
+mcc: 0.8158295380498966
+f2_score: 0.9342258895738355
+pr_auc: 0.9365929771747745
+roc_auc: 0.9757590189329282
+log_loss: 0.1782916784286499
+
+Class-wise Precision, Recall, and F1-Score:
+                                                   Class  Precision   Recall  F1-Score  Support
+                                        Not Suicide post   0.961684 0.959509  0.960595   755408
+Method or action of Suicide, Self-Harm or Harming others   0.858912 0.922126  0.889397    98236
+        Ideation of Suicide, Self-Harm or Harming Others   0.805466 0.762496  0.783392   103510
+
+Classification Report:
+                                                          precision    recall  f1-score   support
+
+                                        Not Suicide post       0.96      0.96      0.96    755408
+Method or action of Suicide, Self-Harm or Harming others       0.86      0.92      0.89     98236
+        Ideation of Suicide, Self-Harm or Harming Others       0.81      0.76      0.78    103510
+
+                                                accuracy                           0.93    957154
+                                               macro avg       0.88      0.88      0.88    957154
+                                            weighted avg       0.93      0.93      0.93    957154
+
+Starting misclassification analysis for lstm_attention...
+Incorrectly classified rows saved to 'incorrectly_classified_rows_lstm_attention.csv'
+Class-wise misclassification counts saved to 'class_wise_misclassifications_lstm_attention.csv'
+[WARN] Project misclassification helper failed: maximum recursion depth exceeded
+[INFO] Misclassification rows saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\outputs_py314\misclassification\lstm_attention_misclassifications.csv
+
+[PYTORCH MODEL COMPARISON]
+model  accuracy  f1_weighted  f1_macro  precision_weighted  recall_weighted  cohen_kappa      mcc  f2_score   pr_auc  roc_auc  log_loss                                                                                                                                                                                                                                                                                                                                                                                                       classwise                                                    confusion_matrix                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                classification_report_text
+model  0.934792     0.934240  0.876996            0.934171         0.934792     0.815520 0.815672  0.934515 0.935838 0.975744  0.178130                                                       Class  Precision    Recall  F1-Score  Support
+0                                          Not Suicide post   0.959835  0.962453  0.961142   755408
+1  Method or action of Suicide, Self-Harm or Harming others   0.862108  0.917668  0.889020    98236
+2          Ideation of Suicide, Self-Harm or Harming Others   0.815272  0.749174  0.780826   103510 [[727045, 11858, 16505], [7022, 90148, 1066], [23402, 2561, 77547]]                                                           precision    recall  f1-score   support\n\n                                        Not Suicide post       0.96      0.96      0.96    755408\nMethod or action of Suicide, Self-Harm or Harming others       0.86      0.92      0.89     98236\n        Ideation of Suicide, Self-Harm or Harming Others       0.82      0.75      0.78    103510\n\n                                                accuracy                           0.93    957154\n                                               macro avg       0.88      0.88      0.88    957154\n                                            weighted avg       0.93      0.93      0.93    957154\n
+model  0.934623     0.933941  0.876353            0.933756         0.934623     0.814312 0.814501  0.934293 0.933472 0.974594  0.182658                                                       Class  Precision    Recall  F1-Score  Support
+0                                          Not Suicide post   0.958481  0.963557  0.961012   755408
+1  Method or action of Suicide, Self-Harm or Harming others   0.867076  0.912965  0.889429    98236
+2          Ideation of Suicide, Self-Harm or Harming Others   0.816594  0.744015  0.778617   103510 [[727879, 11472, 16057], [7310, 89686, 1240], [24220, 2277, 77013]]                                                           precision    recall  f1-score   support\n\n                                        Not Suicide post       0.96      0.96      0.96    755408\nMethod or action of Suicide, Self-Harm or Harming others       0.87      0.91      0.89     98236\n        Ideation of Suicide, Self-Harm or Harming Others       0.82      0.74      0.78    103510\n\n                                                accuracy                           0.93    957154\n                                               macro avg       0.88      0.87      0.88    957154\n                                            weighted avg       0.93      0.93      0.93    957154\n
+model  0.934367     0.934125  0.877795            0.934242         0.934367     0.815718 0.815830  0.934226 0.936593 0.975759  0.178292                                                       Class  Precision    Recall  F1-Score  Support
+0                                          Not Suicide post   0.961684  0.959509  0.960595   755408
+1  Method or action of Suicide, Self-Harm or Harming others   0.858912  0.922126  0.889397    98236
+2          Ideation of Suicide, Self-Harm or Harming Others   0.805466  0.762496  0.783392   103510 [[724821, 12807, 17780], [6368, 90586, 1282], [22511, 2073, 78926]]                                                           precision    recall  f1-score   support\n\n                                        Not Suicide post       0.96      0.96      0.96    755408\nMethod or action of Suicide, Self-Harm or Harming others       0.86      0.92      0.89     98236\n        Ideation of Suicide, Self-Harm or Harming Others       0.81      0.76      0.78    103510\n\n                                                accuracy                           0.93    957154\n                                               macro avg       0.88      0.88      0.88    957154\n                                            weighted avg       0.93      0.93      0.93    957154\n
+model  0.933437     0.932720  0.873940            0.932588         0.933437     0.810989 0.811200  0.933083 0.933323 0.974195  0.183667                                                       Class  Precision    Recall  F1-Score  Support
+0                                          Not Suicide post   0.957880  0.962812  0.960339   755408
+1  Method or action of Suicide, Self-Harm or Harming others   0.860506  0.912608  0.885792    98236
+2          Ideation of Suicide, Self-Harm or Harming Others   0.816423  0.738827  0.775689   103510 [[727316, 12102, 15990], [7379, 89651, 1206], [24603, 2431, 76476]]                                                           precision    recall  f1-score   support\n\n                                        Not Suicide post       0.96      0.96      0.96    755408\nMethod or action of Suicide, Self-Harm or Harming others       0.86      0.91      0.89     98236\n        Ideation of Suicide, Self-Harm or Harming Others       0.82      0.74      0.78    103510\n\n                                                accuracy                           0.93    957154\n                                               macro avg       0.88      0.87      0.87    957154\n                                            weighted avg       0.93      0.93      0.93    957154\n
+model  0.933054     0.932357  0.873718            0.932081         0.933054     0.809650 0.809829  0.932727 0.931561 0.973654  0.183722                                                       Class  Precision    Recall  F1-Score  Support
+0                                          Not Suicide post   0.957074  0.962810  0.959933   755408
+1  Method or action of Suicide, Self-Harm or Harming others   0.869996  0.907386  0.888298    98236
+2          Ideation of Suicide, Self-Harm or Harming Others   0.808603  0.740257  0.772922   103510 [[727314, 11212, 16882], [7843, 89138, 1255], [24778, 2108, 76624]]                                                           precision    recall  f1-score   support\n\n                                        Not Suicide post       0.96      0.96      0.96    755408\nMethod or action of Suicide, Self-Harm or Harming others       0.87      0.91      0.89     98236\n        Ideation of Suicide, Self-Harm or Harming Others       0.81      0.74      0.77    103510\n\n                                                accuracy                           0.93    957154\n                                               macro avg       0.88      0.87      0.87    957154\n                                            weighted avg       0.93      0.93      0.93    957154\n
+model  0.932595     0.932729  0.875923            0.933036         0.932595     0.811952 0.812065  0.932627 0.933964 0.974972  0.181904                                                       Class  Precision    Recall  F1-Score  Support
+0                                          Not Suicide post   0.962579  0.956287  0.959423   755408
+1  Method or action of Suicide, Self-Harm or Harming others   0.862552  0.913952  0.887508    98236
+2          Ideation of Suicide, Self-Harm or Harming Others   0.784325  0.777384  0.780839   103510 [[722387, 12258, 20763], [7089, 89783, 1364], [20994, 2049, 80467]]                                                           precision    recall  f1-score   support\n\n                                        Not Suicide post       0.96      0.96      0.96    755408\nMethod or action of Suicide, Self-Harm or Harming others       0.86      0.91      0.89     98236\n        Ideation of Suicide, Self-Harm or Harming Others       0.78      0.78      0.78    103510\n\n                                                accuracy                           0.93    957154\n                                               macro avg       0.87      0.88      0.88    957154\n                                            weighted avg       0.93      0.93      0.93    957154\n
+Saved to: C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\outputs_py314\reports\pytorch_model_comparison.csv
+
+==============================================================================
+PYTORCH TRANSFORMERS: BERT AND RoBERTa
+==============================================================================
+
+------------------------------------------------------------------------------
+Transformer experiment: bert (bert-base-uncased)
+------------------------------------------------------------------------------
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+config.json: 100%|##############################################################################################################################################################################################| 570/570 [00:00<00:00, 2.97MB/s]
+C:\Users\pankaj\AppData\Roaming\Python\Python314\site-packages\huggingface_hub\file_download.py:129: UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store duplicated files but your machine does not support them in C:\Users\pankaj\.cache\huggingface\hub\models--bert-base-uncased. Caching files will still work but in a degraded version that might require more space on your disk. This warning can be disabled by setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. For more details, see https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.
+To support symlinks on Windows, you either need to activate Developer Mode or to run Python as an administrator. In order to activate developer mode, see this article: https://docs.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development
+  warnings.warn(message)
+tokenizer_config.json: 100%|###################################################################################################################################################################################| 48.0/48.0 [00:00<00:00, 385kB/s]
+vocab.txt: 232kB [00:00, 1.71MB/s]
+tokenizer.json: 466kB [00:00, 1.68MB/s]
+model.safetensors: 100%|######################################################################################################################################################################################| 440M/440M [00:12<00:00, 35.2MB/s]
+Loading weights: 100%|######################################################################################################################################################################################| 199/199 [00:00<00:00, 12509.61it/s]
+[ERROR] Transformer experiment bert failed: 'Tee' object has no attribute 'isatty'
+
+------------------------------------------------------------------------------
+Transformer experiment: roberta (roberta-base)
+------------------------------------------------------------------------------
+config.json: 100%|##############################################################################################################################################################################################| 481/481 [00:00<00:00, 2.73MB/s]
+C:\Users\pankaj\AppData\Roaming\Python\Python314\site-packages\huggingface_hub\file_download.py:129: UserWarning: `huggingface_hub` cache-system uses symlinks by default to efficiently store duplicated files but your machine does not support them in C:\Users\pankaj\.cache\huggingface\hub\models--roberta-base. Caching files will still work but in a degraded version that might require more space on your disk. This warning can be disabled by setting the `HF_HUB_DISABLE_SYMLINKS_WARNING` environment variable. For more details, see https://huggingface.co/docs/huggingface_hub/how-to-cache#limitations.
+To support symlinks on Windows, you either need to activate Developer Mode or to run Python as an administrator. In order to activate developer mode, see this article: https://docs.microsoft.com/en-us/windows/apps/get-started/enable-your-device-for-development
+  warnings.warn(message)
+tokenizer_config.json: 100%|###################################################################################################################################################################################| 25.0/25.0 [00:00<00:00, 208kB/s]
+vocab.json: 899kB [00:00, 8.50MB/s]
+merges.txt: 456kB [00:00, 1.57MB/s]
+tokenizer.json: 1.36MB [00:00, 3.95MB/s]
+model.safetensors: 100%|######################################################################################################################################################################################| 499M/499M [00:06<00:00, 77.9MB/s]
+Loading weights: 100%|######################################################################################################################################################################################| 197/197 [00:00<00:00, 11676.03it/s]
+[ERROR] Transformer experiment roberta failed: 'Tee' object has no attribute 'isatty'
+
+[COMPLETE] training10_py314.py finished.
+PS C:\projectsCode\mentalHealthForums\AI_Models\twitter-suicidal-ideation-detection\machine_learning> 
