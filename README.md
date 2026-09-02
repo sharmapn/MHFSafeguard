@@ -1,233 +1,100 @@
-# MHF Safeguard
+# MHFSafeguard Research Repository
 
-**MHF Safeguard** is a XenForo add-on concept for sending forum posts, replies, and edited messages to a self-managed classifier API for mental-health community safety moderation.
+This repository contains the **research, data-preparation, model-training, evaluation and reproducibility material** for the study on detecting suicide and self-harm content in online mental-health communities.
 
-The plugin is designed for the research project **Safeguarding Online Mental Health Communities**. Its main purpose is to replace third-party moderation APIs with a locally controlled classifier server that can detect high-risk mental-health forum content and support moderators.
+The XenForo implementation has been separated into its own repository:
 
-## Core idea
+**[SuicideSelfHarmDetector-XenForoPlugin](https://github.com/sharmapn/SuicideSelfHarmDetector-XenForoPlugin)**
 
-The plugin sends **one full cleaned message per submission** to your own classifier API.
+## Research task
 
-It does **not** send each sentence as a separate API call. Sentence-level or span-level analysis should be performed on the server side, and the server should return the risky sentence, phrase, span, label, score, and recommended action.
+The study classifies sentences into three categories:
 
-```text
-User writes post/reply/edit
-→ user clicks Submit
-→ plugin intercepts full message
-→ plugin cleans text
-→ plugin sends one full message to local classifier API
-→ API returns risk level, label, score, and recommended action
-→ plugin allows, logs, moderates, or asks the user to revise
-```
+1. **Not Ideation or method or action**
+2. **Suicide or Self Harm Ideation**
+3. **Method or action of Suicide, Self-Harm or Harming others**
 
-## Workflow diagram
+The modelling pipeline evaluates traditional machine learning, neural deep learning and transformer models. The final model comparison uses the same **957,154-sentence actual-only held-out test set** for all model families.
 
-![Workflow of the MHFSafeguard XenForo Plugin](docs/images/workflow.svg)
-
-## How the plugin works
-
-1. A user writes a new thread, reply, or post edit in XenForo.
-2. The user clicks **Submit**.
-3. The MHFSafeguard plugin intercepts the full message during submission.
-4. The text is normalised by removing quoted content, BBCode, and formatting noise.
-5. The plugin sends one cleaned full message to the configured classifier API.
-6. The classifier server analyses the message and may identify risky sentences or spans internally.
-7. The API returns a classification result.
-8. The plugin applies the configured action: allow, log, moderate, or revise.
-9. A scan log is stored for administrator/moderator review.
-
-## Configuration required before use
-
-In the XenForo Admin Control Panel, configure the MHF Safeguard options.
-
-| Setting | Purpose | Recommended first value |
-|---|---|---|
-| Enable scanning | Turns the plugin on/off | Enabled only on a test forum first |
-| Classifier API URL | Endpoint for your classifier server | `https://your-server.example/api/classify` |
-| API key | Secret token sent to your API | Use a private key/token |
-| Action mode | Determines what happens after classification | `log` first, then `moderate` |
-| Moderation threshold | Score at which post is sent to moderation | `85` |
-| Revision threshold | Score at which user is asked to revise | `95` |
-| API timeout | Maximum time to wait for server response | `8–10 seconds` |
-| Fail open | Allows posting if API is unavailable | On during testing |
-| Store raw API response | Saves full API response for debugging | On during testing, off later if needed |
-| Store cleaned message | Saves cleaned text in logs | Off by default for privacy |
-| Excluded forums | Forums that should not be scanned | Staff-only, archived, already moderated forums |
-
-## Recommended testing sequence
-
-Start safely with logging only:
+## Main repository areas
 
 ```text
-Enable scanning = On
-Action mode = Log
-Fail open = On
-Store raw API response = On
-Store cleaned message text = Off
+MHFSafeguard/
+├── ML_DLearning/                  model training, evaluation and aggregate results
+├── categories_and_terms/          category/term development material
+├── labelling_using_Gemini_API/    data-labelling scripts and supporting material
+├── paraphrasing_using_Gemini_AI/  augmentation/paraphrasing material
+├── docs/                           research documentation and labelling prompts
+└── keywords.txt                    keyword list used in the research workflow
 ```
 
-After checking that API responses are correct, change to:
+## Machine learning and deep learning
+
+The `ML_DLearning/` directory is the main reproducibility area for the classifier experiments. It contains the current training pipeline, evaluation utilities, requirements and aggregate output/result files.
+
+The final experimental design separates actual data before augmentation:
 
 ```text
-Action mode = Moderate
+Actual labelled data
+        |
+        +--> 75% actual training data
+        |
+        +--> 25% actual-only held-out test data (n = 957,154)
+
+Actual training data
+        + generated/paraphrased training-only augmentation
+        |
+        v
+Model training
+        |
+        v
+Evaluation on the untouched actual-only held-out test set
 ```
 
-Only after further testing, consider:
+Generated and paraphrased examples are used for **training support only** and are excluded from final held-out testing.
 
-```text
-Action mode = Revise
-```
+## Evaluated model families
 
-## Expected API request
+### Traditional machine learning
 
-The plugin should send a payload similar to this:
+- Logistic Regression
+- Linear SVM
+- Naive Bayes
+- Random Forest
+- Gradient Boosting
 
-```json
-{
-  "platform": "xenforo",
-  "source": "mhf_safeguard_plugin",
-  "site_url": "https://www.mentalhealthforum.net",
-  "context": {
-    "content_type": "post",
-    "content_id": 12345,
-    "thread_id": 456,
-    "node_id": 12,
-    "user_id": 99,
-    "username": "example_user",
-    "title": "Thread title",
-    "is_first_post": false
-  },
-  "message": "Cleaned full message text goes here.",
-  "message_hash": "sha256_hash_here",
-  "return_spans": true,
-  "return_sentences": true,
-  "sent_at": 1710000000
-}
-```
+### Neural deep learning
 
-## Expected API response
+- LSTM (1 layer)
+- LSTM (2 layers)
+- GRU
+- CNN--LSTM
+- Hybrid CNN--LSTM--GRU
+- LSTM with Attention
 
-The classifier server should return a result similar to this:
+### Transformers
 
-```json
-{
-  "risk_level": "high",
-  "recommended_action": "moderate",
-  "highest_label": "method_or_action",
-  "highest_score": 94,
-  "flagged_parts": [
-    {
-      "text": "flagged sentence or phrase",
-      "label": "method_or_action",
-      "score": 94,
-      "start_offset": 20,
-      "end_offset": 60
-    }
-  ]
-}
-```
+- BERT
+- RoBERTa
+- MentalRoBERTa
+- ModernBERT
 
-The score can be returned as either `0.94` or `94`; the plugin should normalise scores to a 0–100 scale.
+All final model results are evaluated on the same 957,154 held-out sentences. Linear SVM and MentalRoBERTa provide the strongest overall results, with complementary strengths across Method/action and Ideation detection.
 
-## Possible plugin actions
+## Reproducibility and public-data policy
 
-| Action | Behaviour |
-|---|---|
-| Allow | The post is published normally |
-| Log | The result is stored but the post is allowed |
-| Moderate | The post is placed into the XenForo moderation queue |
-| Revise | The user is asked to edit the message before it is submitted |
+This public repository is intended to provide code, configuration, prompts and aggregate experimental outputs that support reproducibility. It does **not** publish private MentalHealthForum.net message data, raw moderator-reviewed sentences, confidential databases, API credentials or other sensitive user content.
 
-## Mock screens
+Some third-party/public datasets used in the research remain subject to their original licences and distribution conditions and therefore may need to be obtained from their original sources.
 
-The following mock screens show the intended user and administrator experience.
+## Related XenForo plugin
 
-### 1. Admin configuration screen
+The moderation integration is maintained separately at:
 
-![Admin configuration screen](docs/images/admin-configuration.svg)
+**https://github.com/sharmapn/SuicideSelfHarmDetector-XenForoPlugin**
 
-This screen allows the forum administrator to enable the plugin, set the classifier API URL, enter an API key, choose the action mode, set thresholds, and exclude forums from scanning.
+That repository contains the XenForo add-on code and API integration. Keeping the implementation separate prevents the software plugin from being mixed with the research training and evaluation artefacts.
 
-### 2. Admin classification log
+## Research status
 
-![Admin classification log](docs/images/admin-scan-log.svg)
-
-This screen shows a reviewable log of classifier decisions. It helps moderators and administrators inspect recent scans, risk levels, labels, scores, and actions taken.
-
-### 3. User post editor
-
-![User post editor](docs/images/user-post-editor.svg)
-
-The user writes normally in the standard XenForo editor. In the first version, the plugin does not call the API while the user is typing. The API call occurs only after the user clicks **Submit**.
-
-### 4. User revision warning
-
-![User revision warning](docs/images/user-revision-warning.svg)
-
-If the classifier returns a very high score and the plugin is set to **Revise** mode, the message is not posted. The user is asked to edit the message before trying again.
-
-### 5. User moderation queue notice
-
-![User moderation queue notice](docs/images/user-moderation-notice.svg)
-
-If the plugin is set to **Moderate** mode and the classification score exceeds the moderation threshold, the post is saved but not publicly visible until reviewed by a moderator.
-
-## Difference from Perspective API style moderation
-
-| Aspect | Perspective API style | MHFSafeguard |
-|---|---|---|
-| API target | Google Perspective API | Self-managed classifier server |
-| Main task | Toxicity scoring | Mental-health safety classification |
-| Message sent | Full message | Full cleaned message |
-| Sentence-by-sentence requests | No | No |
-| Sentence/span analysis | Returned by external API | Performed by your server |
-| Labels | Toxicity, insult, threat, etc. | `method_or_action`, `ideation`, `not_harmful`, etc. |
-| Data control | External third-party API | Locally controlled / self-managed API |
-| Main action | Allow, warn, moderate | Allow, log, moderate, revise |
-
-## Repository structure
-
-The intended XenForo add-on path is:
-
-```text
-src/addons/Pankaj/MHFSafeguard/
-```
-
-Planned structure:
-
-```text
-src/addons/Pankaj/MHFSafeguard/
-├── addon.json
-├── Setup.php
-├── Content/
-├── Pipeline/
-├── Gateway/
-├── Repository/
-├── XF/
-│   └── Service/
-│       ├── Thread/
-│       └── Post/
-└── _data/
-```
-
-## Installation notes
-
-For a XenForo development or test installation:
-
-1. Copy the add-on folder to:
-
-```text
-src/addons/Pankaj/MHFSafeguard/
-```
-
-2. In XenForo Admin CP, install the add-on.
-3. Configure the plugin options.
-4. Start with **Action mode = Log**.
-5. Submit test posts and verify the classification log.
-6. Move to **Moderate** mode only after confirming that API results are reliable.
-
-## Privacy-oriented design
-
-The plugin is designed around a self-managed classifier API. This gives forum administrators more control over where sensitive forum content is processed, how long responses are retained, and how moderation decisions are audited.
-
-For operational use, avoid storing full message text unless it is needed for debugging or authorised moderator review.
+This repository accompanies ongoing academic research into machine-learning and deep-learning support for human-supervised moderation of suicide and self-harm content in online mental-health communities.
