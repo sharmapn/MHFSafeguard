@@ -1,8 +1,8 @@
-# Machine Learning and Deep Learning Research Companion
+# Model Training and Evaluation Research Companion
 
-This folder contains the research code and aggregate evaluation outputs used for the machine-learning, neural deep-learning, and transformer experiments associated with **MHFSafeguard** and the accompanying paper on detecting suicide/self-harm ideation and method/action content in online mental-health communities.
+This folder contains the research code and aggregate evaluation outputs used for the **traditional machine-learning, neural deep-learning, and transformer experiments** associated with MHFSafeguard and the accompanying paper on detecting suicide/self-harm ideation and method/action content in online mental-health communities.
 
-The XenForo implementation is now maintained separately in **[SuicideSelfHarmDetector-XenForoPlugin](https://github.com/sharmapn/SuicideSelfHarmDetector-XenForoPlugin)**. This folder is the research/reproducibility area for classifier development and evaluation.
+The XenForo implementation is maintained separately in **[SuicideSelfHarmDetector-XenForoPlugin](https://github.com/sharmapn/SuicideSelfHarmDetector-XenForoPlugin)**. This folder is the main research/reproducibility area for classifier development and evaluation.
 
 ## Final classification task
 
@@ -104,10 +104,10 @@ All final reported models were evaluated on the **same 957,154-sentence actual-o
 
 The main finding is not a large overall separation between SVM and MentalRoBERTa. Instead, they show complementary strengths: **Linear SVM is particularly strong for explicit method/action content, whereas MentalRoBERTa provides substantially stronger ideation recall.**
 
-## Recommended folder structure
+## Folder structure
 
 ```text
-ML_DLearning/
+model_training_evaluation/
 ├── README.md
 ├── training12_py314.py
 ├── results/

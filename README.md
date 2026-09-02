@@ -20,17 +20,17 @@ The modelling pipeline evaluates traditional machine learning, neural deep learn
 
 ```text
 MHFSafeguard/
-├── ML_DLearning/                  model training, evaluation and aggregate results
-├── categories_and_terms/          category/term development material
-├── labelling_using_Gemini_API/    data-labelling scripts and supporting material
-├── paraphrasing_using_Gemini_AI/  augmentation/paraphrasing material
-├── docs/                           research documentation and labelling prompts
-└── keywords.txt                    keyword list used in the research workflow
+├── model_training_evaluation/       model training, evaluation and aggregate results
+├── categories_and_terms/            category/term development material
+├── labelling_using_Gemini_API/      data-labelling scripts and supporting material
+├── paraphrasing_using_Gemini_AI/    augmentation/paraphrasing material
+├── docs/                             research documentation and labelling prompts
+└── keywords.txt                      keyword list used in the research workflow
 ```
 
-## Machine learning and deep learning
+## Model training and evaluation
 
-The `ML_DLearning/` directory is the main reproducibility area for the classifier experiments. It contains the current training pipeline, evaluation utilities, requirements and aggregate output/result files.
+The `model_training_evaluation/` directory is the main reproducibility area for the classifier experiments. It contains the current training pipeline, traditional ML, neural DL and transformer evaluation utilities, requirements, and aggregate result files.
 
 The final experimental design separates actual data before augmentation:
 
