@@ -5,13 +5,27 @@ This directory contains **publication-safe aggregate outputs** from the final MH
 ## Current files
 
 ```text
+FULL_TEST_RESULTS.md
+all_models_full_test_957154.csv
 transformer_full_eval_957154.txt
 transformer_model_comparison_full_957154.csv
 ```
 
-`transformer_full_eval_957154.txt` records the completed evaluation-only run of BERT, RoBERTa, MentalRoBERTa and ModernBERT on the complete held-out test set.
+### `FULL_TEST_RESULTS.md`
 
-`transformer_model_comparison_full_957154.csv` provides the same final transformer results in machine-readable form, including overall and class-wise metrics.
+Human-readable summary of the final traditional ML, neural DL and transformer results on the complete held-out test set.
+
+### `all_models_full_test_957154.csv`
+
+Machine-readable comparison of **all 15 final models** on the same 957,154-sentence test set, including accuracy, macro F1 and class-wise precision/recall/F1.
+
+### `transformer_full_eval_957154.txt`
+
+Completed evaluation-only console run of BERT, RoBERTa, MentalRoBERTa and ModernBERT on the complete held-out test set.
+
+### `transformer_model_comparison_full_957154.csv`
+
+Transformer-only machine-readable comparison generated from the full held-out evaluation.
 
 ## Final held-out test set
 
@@ -26,16 +40,22 @@ All final machine-learning, neural deep-learning and transformer model compariso
 
 Generated and paraphrased examples are used only for training support and are excluded from this held-out evaluation.
 
-## Transformer summary
+## Important distinction between final and intermediate runs
 
-| Model | Accuracy | Macro F1 | Method recall | Method F1 | Ideation recall | Ideation F1 |
-|---|---:|---:|---:|---:|---:|---:|
-| BERT | 0.9315 | 0.8733 | 0.9212 | 0.8798 | 0.7734 | 0.7810 |
-| RoBERTa | 0.9342 | 0.8779 | 0.9174 | 0.8840 | 0.7819 | 0.7889 |
-| MentalRoBERTa | **0.9352** | **0.8803** | 0.9201 | **0.8869** | **0.7922** | **0.7927** |
-| ModernBERT | 0.9344 | 0.8744 | 0.9178 | 0.8828 | 0.7246 | 0.7793 |
+Several development logs were produced while configuring the transformer pipeline. These include smoke tests, DeBERTa/tokenizer setup attempts and the earlier **100,000-sentence transformer test run**. They are useful development provenance but are **not the final paper evaluation**.
 
-The full paper also compares these models with traditional machine-learning and neural deep-learning models. Linear SVM remains particularly strong for Method/action detection, while MentalRoBERTa provides stronger Ideation recall.
+The publication-facing results are the complete **957,154-sentence held-out evaluations** recorded in the files above. In particular, the transformer results in `transformer_full_eval_957154.txt` supersede the earlier 100,000-row transformer metrics.
+
+## Overall summary
+
+| Model | Family | Accuracy | Macro F1 | Method recall | Ideation recall |
+|---|---|---:|---:|---:|---:|
+| Linear SVM | Traditional ML | **0.936447** | 0.879840 | **0.937141** | 0.738344 |
+| MentalRoBERTa | Transformer | 0.935248 | **0.880341** | 0.920141 | **0.792184** |
+| LSTM (2 layers) | Neural DL | 0.934792 | 0.876996 | 0.917668 | 0.749174 |
+| LSTM with Attention | Neural DL | 0.934367 | 0.877795 | 0.922126 | 0.762496 |
+
+Linear SVM achieved the highest overall accuracy and strongest Method/action recall, while MentalRoBERTa achieved a marginally higher macro F1 and substantially stronger Ideation recall.
 
 ## Public-data policy
 
