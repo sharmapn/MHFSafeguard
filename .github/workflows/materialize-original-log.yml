@@ -1,0 +1,43 @@
+name: Materialize original ML/DL console log
+
+on:
+  push:
+    paths:
+      - 'model_training_evaluation/results/latest_10_8_26_out.txt.gz.b64'
+
+permissions:
+  contents: write
+
+jobs:
+  materialize:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Decode exact original log
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import base64, gzip
+
+          source = Path('model_training_evaluation/results/latest_10_8_26_out.txt.gz.b64')
+          target = Path('model_training_evaluation/results/latest_10_8_26_out.txt')
+          compressed = base64.b64decode(source.read_text(encoding='ascii'))
+          target.write_bytes(gzip.decompress(compressed))
+          print(f'Wrote {target} ({target.stat().st_size} bytes)')
+          PY
+
+      - name: Commit materialized log
+        shell: bash
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add model_training_evaluation/results/latest_10_8_26_out.txt
+          if git diff --cached --quiet; then
+            echo 'No changes to commit.'
+          else
+            git commit -m 'Add original full ML and neural-DL console log'
+            git push
+          fi
