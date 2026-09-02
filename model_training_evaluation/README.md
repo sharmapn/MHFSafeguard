@@ -109,6 +109,7 @@ The main finding is not a large overall separation between SVM and MentalRoBERTa
 ```text
 model_training_evaluation/
 ├── README.md
+├── ENVIRONMENT_VARIABLES.md
 ├── training12_py314.py
 ├── results/
 │   ├── README.md
@@ -123,11 +124,24 @@ model_training_evaluation/
 
 Raw datasets, private forum content, and row-level misclassification exports should not be committed to this public repository.
 
-## Running the final script
+## Python environment and run configuration
 
-The publication environment used Python 3.14 and PyTorch. Paths and experiment blocks in `training12_py314.py` can be controlled through environment variables.
+The publication pipeline uses Python 3.14 and PyTorch. `training12_py314.py` is deliberately controlled through environment variables so that traditional ML, neural DL, transformer training, saved-model evaluation, and ablation experiments can be run from the same script without editing its source.
 
-For example, the completed full transformer evaluation used saved fine-tuned checkpoints and evaluated only the full held-out test set:
+See **[ENVIRONMENT_VARIABLES.md](ENVIRONMENT_VARIABLES.md)** for:
+
+- Python 3.14 virtual-environment setup;
+- Visual Studio / VS Code PowerShell usage;
+- database path variables;
+- ML-only, DL-only and transformer-only run profiles;
+- running an individual model;
+- full 957,154-row transformer evaluation;
+- weighted cross-entropy and focal-loss ablation;
+- all major `MHFS_*` variables and defaults;
+- Hugging Face authentication; and
+- clearing old environment settings before a different experiment.
+
+For example, the completed full transformer evaluation used saved fine-tuned checkpoints and evaluated the entire held-out test set:
 
 ```powershell
 $env:MHFS_RUN_MACHINE_LEARNING="0"
@@ -138,10 +152,10 @@ $env:MHFS_TRANSFORMER_LOSS_MODES="standard"
 $env:MHFS_TRANSFORMER_EVAL_ONLY="1"
 $env:MHFS_TRANSFORMER_TEST_LIMIT="0"
 $env:MHFS_RUN_IMBALANCE_ABLATION="0"
-python -u training12_py314.py 2>&1 | Tee-Object -FilePath transformer_full_eval.txt
+python -u .\model_training_evaluation\training12_py314.py 2>&1 | Tee-Object -FilePath transformer_full_eval.txt
 ```
 
-`MHFS_TRANSFORMER_TEST_LIMIT=0` evaluates the complete **957,154-sentence** held-out set.
+`MHFS_TRANSFORMER_TEST_LIMIT=0` means that the complete **957,154-sentence** held-out test set is evaluated.
 
 ## Reproducibility and data availability
 
