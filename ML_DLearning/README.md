@@ -2,7 +2,7 @@
 
 This folder contains the research code and aggregate evaluation outputs used for the machine-learning, neural deep-learning, and transformer experiments associated with **MHFSafeguard** and the accompanying paper on detecting suicide/self-harm ideation and method/action content in online mental-health communities.
 
-The XenForo add-on remains the primary software product in this repository. This folder is the **research/reproducibility companion** for the classifier development and evaluation work.
+The XenForo implementation is now maintained separately in **[SuicideSelfHarmDetector-XenForoPlugin](https://github.com/sharmapn/SuicideSelfHarmDetector-XenForoPlugin)**. This folder is the research/reproducibility area for classifier development and evaluation.
 
 ## Final classification task
 
@@ -109,17 +109,19 @@ The main finding is not a large overall separation between SVM and MentalRoBERTa
 ```text
 ML_DLearning/
 ├── README.md
-├── training12_py314.py              # final publication pipeline
+├── training12_py314.py
 ├── results/
-│   └── transformer_full_eval.txt    # aggregate run log / metrics
-├── metrics_calculator.py            # supporting utility
-├── misclassification_analysis.py    # supporting utility
-├── path_setup.py                    # supporting utility
+│   ├── README.md
+│   ├── transformer_full_eval_957154.txt
+│   └── transformer_model_comparison_full_957154.csv
+├── metrics_calculator.py
+├── misclassification_analysis.py
+├── path_setup.py
 ├── requirements.txt
 └── training.py                      # legacy experimental script
 ```
 
-Additional aggregate result files may be placed under `results/`. Raw datasets, private forum content, and row-level misclassification exports should not be committed to this public repository.
+Raw datasets, private forum content, and row-level misclassification exports should not be committed to this public repository.
 
 ## Running the final script
 
@@ -149,6 +151,8 @@ Researchers wishing to reproduce the workflow with their own appropriately autho
 
 ## Relationship to the XenForo plugin
 
-The models developed here provide the classifier research underlying the broader MHFSafeguard moderation workflow. The XenForo add-on sends content to a self-managed classifier API and can use the returned label/risk result to support logging, moderation, or secondary human review.
+The models developed here provide the classifier research underlying the moderation workflow. The separate XenForo add-on sends content to a self-managed classifier API and can use the returned label/risk result to support logging, moderation, or secondary human review.
+
+Plugin repository: **https://github.com/sharmapn/SuicideSelfHarmDetector-XenForoPlugin**
 
 The research findings support **human-supervised moderation assistance**, not autonomous replacement of moderators.
